@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="frame/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="frame/style.css">
+    <title>地图使用示例</title>
+</head>
+<body>
+<div class="m-wrapper fx-column" id="app">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">web端地图示例</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li @click="setCodeVisible()" :class="!showCode && 'active'"><a href="#">地图</a></li>
+                    <li @click="setCodeVisible(true)" :class="showCode && 'active'"><a href="#">代码</a></li>
+                    <li @click="setDescVisible()" :class="showDesc && 'active'"><a href="#">描述</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="fx-1 fx m-container">
+
+        <div class="m-menu list-group">
+            <a class="list-group-item" :class="item.type==='folder' ? 'm-menu-title' : 'm-menu-item'"
+               v-for="item in menuData" @click="turnDemo(item)">{{item.title}}</a>
+        </div>
+        <div class="m-map fx-1">
+            <div class="m-wrapper m-code" v-show="showCode">
+                <pre>{{pageCode}}</pre>
+            </div>
+            <div class="m-desc-panel" v-show="showDesc">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">地图效果描述</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{mapDesc}}
+                    </div>
+                </div>
+            </div>
+
+            <iframe :src="frameSrc"></iframe>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="frame/vue/vue.min.js"></script>
+<script type="text/javascript" src="frame/vue/vue-resource.js"></script>
+<script type="text/javascript" src="frame/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+html, body, .m-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.fx {
+    display: flex;
+}
+.fx-column {
+    display: flex;
+    flex-direction: column;
+}
+.fx-1 {
+    flex: 1;
+}
+.m-container {
+    margin-top: -20px;
+    position: relative;
+}
+.m-desc-panel {
+    position: absolute;
+    right:0;
+    padding: 10px;
+}
+.m-menu {
+    width: 220px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+}
+.m-menu-title {
+
+    color: #31708f !important;
+    background-color: #f5f5f5;
+}
+.m-menu-item {
+    padding-left: 20px;
+}
+
+.m-map {
+    position: relative;;
+}
+.m-code {
+    position: absolute;
+    overflow-y: auto;
+    background-color: #ffffff;
+    z-index: 1;
+}
+pre{
+    overflow: hidden;
+    margin: 10px;
+    white-space: pre-wrap;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow: hidden;
+}
