@@ -54,8 +54,13 @@ function readFileTitle(src) {
 }
 
 var path = './web/demo';
-var fl = geFileList(path);
-var data = JSON.stringify(fl);
-fs.writeFile('./web/frame/data.json', data);
 
-module.exports = {};
+function run () {
+    var fl = geFileList(path);
+    var data = JSON.stringify(fl);
+    fs.writeFile('./web/frame/data.json', data);
+}
+run();
+module.exports = {
+    run: run
+};
