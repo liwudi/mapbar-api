@@ -1,0 +1,16 @@
+{
+  "name": "mapbar-api-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp serve"
+  },
+  "author": "liufang",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-watch": "^4.3.11"
+  }
+}
