@@ -16,6 +16,7 @@ html, body, .m-wrapper {
 .m-container {
     margin-top: -20px;
     position: relative;
+    overflow: hidden;
 }
 .m-desc-panel {
     position: absolute;

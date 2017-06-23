@@ -29,10 +29,15 @@ new Vue({
             label.classList.toggle(cn);
         },
         turnDemo: function (item) {
-            console.info(item)
-            this.page = item;
-            this.active = item.path;
-            this.getPageCode();
+            if(item.code) {
+                this.active = item.path;
+                this.page = item;
+            } else {
+                this.getPageCode(item.path).then(function (code) {
+                    item.code = code;
+                    this.turnDemo(item);
+                });
+            }
         },
         getMenu: function () {
             var url = './frame/data.json?' + new Date().valueOf(),
@@ -50,10 +55,11 @@ new Vue({
                 console.info('error')
             });
         },
-        getPageCode: function () {
-            var method = 'GET';
-            this.$http({url: this.page.path + '?' + new Date().valueOf(), method: method}).then(function(res) {
-                this.page.code = res.body;
+
+        getPageCode: function (url) {
+            return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function(res) {
+                console.info(res)
+                return res.body;
             }, function() {
                 console.info('error')
             });
