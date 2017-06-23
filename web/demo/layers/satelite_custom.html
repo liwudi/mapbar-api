@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>自定义卫星影像图</title>
+    <meta name="description" content="算法由第三方提供，通过预设函数拼出地址">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        /**-------地图初始化相关变量----------**/
+        var maplet = null, //地图实例化对象
+                zoomLevel = 10; //地图初始化级别
+        var city = '北京市';
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+
+            maplet.centerAndZoom(new MPoint(city), zoomLevel);
+            maplet.addControl(new MStandardControl());
+
+        }
+
+        function processFun(bx, by) {
+            var zoom = maplet.getZoomLevel();
+            var nGrade = Math.ceil((zoom - 3) / 4);
+            var nPreRow = 0,
+                    nPreCol = 0,
+                    nPreSize = 0;
+            var path = "";
+            for (var i = 0; i < nGrade; i++) {
+                var nSize = 1 << (4 * (nGrade - i));
+                var nRow = parseInt((bx - nPreRow * nPreSize) / nSize);
+                var nCol = parseInt((by - nPreCol * nPreSize) / nSize);
+                path += ((nRow > 9) ? nRow : "0" + nRow) + "" + ((nCol > 9) ? nCol : "0" + nCol) + "/";
+                nPreRow = nRow;
+                nPreCol = nCol;
+                nPreSize = nSize;
+            }
+            var id = (((bx) & ((1 << 20) - 1)) + (((by) & ((1 << 20) - 1)) * Math.pow(2, 20)) + (((zoom) & ((1 << 8) - 1)) * Math.pow(2, 40)));
+            return "http://image.fundrive.com.cn/vis/" + zoom + "/" + path + id + ".jpg"
+
+        }
+        function mMap() {
+            maplet.setBasemapImg();
+        }
+        function sMap() {
+            maplet.setBasemapImg({
+                imgUrlProcessor: processFun
+            });
+        }
+
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+<br/>
+<div>
+    <button onclick="mMap();">原始底图</button>
+    <button onclick="sMap();">卫星图</button>
+</div>
+</body>
+</html>

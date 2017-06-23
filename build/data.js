@@ -11,7 +11,7 @@ var fs = require('fs');
  */
 
 function geFileList(path) {
-    var filesList = [];
+    var filesList = {};
     readFile(path, filesList);
     return filesList;
 }
@@ -23,10 +23,12 @@ function readFile(path, filesList) {
         states = fs.statSync(path + '/' + file);
         //if(!folder[file]) obj[file] = {};
         if (states.isDirectory()) {
-            filesList.push({
+            var fobj = filesList[file];
+            if(!fobj) filesList[file] = fobj = [];
+            /*filesList.push({
                 type: 'folder', title: file
-            });
-            readFile(path + '/' + file, filesList);
+            });*/
+            readFile(path + '/' + file, fobj);
         }
         else {
             var filePath = path + '/' + file;

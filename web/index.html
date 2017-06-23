@@ -24,27 +24,29 @@
         </div>
     </nav>
     <div class="fx-1 fx m-container">
-
-        <div class="m-menu list-group">
-            <a class="list-group-item" :class="item.type==='folder' ? 'm-menu-title' : 'm-menu-item'"
-               v-for="item in menuData" @click="turnDemo(item)">{{item.title}}</a>
+        <div class="m-menu">
+            <div class="panel panel-info"  v-for="(arr, name) in menuData">
+                <div class="panel-heading" :ref="name" @click="showItem(name)" >{{name}}</div>
+                <div class="list-group">
+                    <a class="list-group-item" v-for="item in arr" :class="item.path == active && 'select'" @click="turnDemo(item)">{{item.title}}</a>
+                </div>
+            </div>
         </div>
         <div class="m-map fx-1">
             <div class="m-wrapper m-code" v-show="showCode">
-                <pre>{{pageCode}}</pre>
+                <pre>{{page.code}}</pre>
             </div>
             <div class="m-desc-panel" v-show="showDesc">
-                <div class="panel panel-default">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title">地图效果描述</h3>
                     </div>
                     <div class="panel-body">
-                        {{mapDesc}}
+                        <p>{{page.desc}}</p>
                     </div>
                 </div>
             </div>
-
-            <iframe :src="frameSrc"></iframe>
+            <iframe :src="page.path"></iframe>
         </div>
     </div>
 </div>

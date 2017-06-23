@@ -8,37 +8,52 @@ new Vue({
     data: {
         menuData: [],
         frameSrc: '',
-        mapDesc: '',
+        page: {
+            path: '',
+            desc: '',
+            title: '',
+            code: ''
+        },
         showCode: false,
         showDesc: true,
-        pageCode: ''
+        className: 'm-item-hide',
+        active: ''
     },
     mounted: function () {
         this.getMenu();
     },
     methods: {
+        showItem: function (label) {
+            label = this.$refs[label][0];
+            var cn = this.className;
+            label.classList.toggle(cn);
+        },
         turnDemo: function (item) {
-            if(item.type === 'file') {
-                this.frameSrc = item.path;
-                this.mapDesc = item.desc;
-                this.getPageCode(item.path);
-                return true;
-            }
+            console.info(item)
+            this.page = item;
+            this.active = item.path;
+            this.getPageCode();
         },
         getMenu: function () {
-            var url = './frame/data.json',
+            var url = './frame/data.json?' + new Date().valueOf(),
                 method = 'GET';
             this.$http({url: url, method: method}).then(function(res) {
                 this.menuData = res.data;
-                this.menuData.some(this.turnDemo);
+                for(var k in this.menuData) {
+                    var item = this.menuData[k];
+                    if(item && item.length) {
+                        this.turnDemo(item[0]);
+                        break;
+                    }
+                }
             }, function() {
                 console.info('error')
             });
         },
-        getPageCode: function (url) {
+        getPageCode: function () {
             var method = 'GET';
-            this.$http({url: url, method: method}).then(function(res) {
-                this.pageCode = res.body;
+            this.$http({url: this.page.path + '?' + new Date().valueOf(), method: method}).then(function(res) {
+                this.page.code = res.body;
             }, function() {
                 console.info('error')
             });
