@@ -14,13 +14,28 @@
             height: 100%;
         }
     </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <!--热力图数据文件-->
+    <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript">
+        var maplet = null;
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            initHeatMap();
+        }
+        //初始化热力图
+        function initHeatMap() {
+            Maplet.plugin('http://api.mapbar.com/api/plugin/MHeatMap.js', function () {
+                heatMap = maplet.enableHeatmap({
+                    minZoomLevel: 4,
+                    radius: 25,
+                    dataMax: 300,
+                    autoRender: true
+                }, heatMapData);
+            });
         }
     </script>
 </head>

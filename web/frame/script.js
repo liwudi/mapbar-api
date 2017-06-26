@@ -31,6 +31,7 @@ new Vue({
             if (item.code) {
                 this.active = item.path;
                 this.page = item;
+                window.location.hash = encodeURIComponent(item.path);
             } else {
                 this.getPageCode(item.path).then(function (code) {
                     item.code = code;
@@ -42,14 +43,22 @@ new Vue({
             var url = './frame/data.json?' + new Date().valueOf(),
                 method = 'GET';
             this.$http({url: url, method: method}).then(function (res) {
-                this.menuData = res.data;
+                var menuData = this.menuData = res.data;
                 this.setBs();
-                for (var k in this.menuData) {
-                    var item = this.menuData[k];
-                    if (item && item.length) {
-                        this.turnDemo(item[0]);
-                        break;
+                var hash = window.location.hash;
+                    hash = hash ? decodeURIComponent(hash) : null;
+                var find = false;
+                for (var k in menuData) {
+                    var list = menuData[k] || [];
+                    for(var i = 0; i < list.length; i ++) {
+                        var item = list[i];
+                        find = !hash || ('#' + item.path === hash);
+                        if(find) {
+                            this.turnDemo(item);
+                            break;
+                        }
                     }
+                    if(find) break;
                 }
             }, function () {
                 console.info('error')
