@@ -2,12 +2,10 @@
  * Created by cryst on 2017/6/21.
  */
 
-
 new Vue({
     el: '#app',
     data: {
         menuData: [],
-        frameSrc: '',
         page: {
             path: '',
             desc: '',
@@ -16,17 +14,18 @@ new Vue({
         },
         showCode: false,
         showDesc: true,
-        className: 'm-item-hide',
         active: ''
     },
     mounted: function () {
         this.getMenu();
     },
     methods: {
-        showItem: function (label) {
-            label = this.$refs[label][0];
-            var cn = this.className;
-            label.classList.toggle(cn);
+        setBs: function () {
+            setTimeout(function () {
+                $('.panel-collapse').each(function () {
+                    $(this).collapse('show');
+                });
+            }, 1000);
         },
         turnDemo: function (item) {
             if(item.code) {
@@ -44,6 +43,7 @@ new Vue({
                 method = 'GET';
             this.$http({url: url, method: method}).then(function(res) {
                 this.menuData = res.data;
+                this.setBs();
                 for(var k in this.menuData) {
                     var item = this.menuData[k];
                     if(item && item.length) {
@@ -58,7 +58,6 @@ new Vue({
 
         getPageCode: function (url) {
             return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function(res) {
-            //    console.info(res)
                 return res.body;
             }, function() {
                 console.info('error')
