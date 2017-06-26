@@ -21,7 +21,13 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            
+            maplet.setMode("measarea", onMeasArea);
         }
+        function onMeasArea(dataObj) {  
+            
+            maplet.setMode("pan");
+        } 
     </script>
 </head>
 <body onload="initMap();">

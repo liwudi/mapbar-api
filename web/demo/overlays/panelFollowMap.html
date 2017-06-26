@@ -21,6 +21,21 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            
+            //面板
+            var panel = new MPanel({
+            	pin:true,
+				zindex:5,
+				content:"<div class='center panelContainer'>这是一个跟随地图移动的panel示例</div>",
+				location:{
+					type:"xy",
+					x:200,
+					y:200,
+				},
+				mousewheel:true
+            });
+            
+            maplet.addOverlay(panel);
         }
     </script>
 </head>
