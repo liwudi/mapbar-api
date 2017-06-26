@@ -58,7 +58,7 @@ new Vue({
 
         getPageCode: function (url) {
             return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function(res) {
-                console.info(res)
+            //    console.info(res)
                 return res.body;
             }, function() {
                 console.info('error')
