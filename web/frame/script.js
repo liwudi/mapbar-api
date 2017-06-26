@@ -28,7 +28,7 @@ new Vue({
             }, 1000);
         },
         turnDemo: function (item) {
-            if(item.code) {
+            if (item.code) {
                 this.active = item.path;
                 this.page = item;
             } else {
@@ -41,25 +41,25 @@ new Vue({
         getMenu: function () {
             var url = './frame/data.json?' + new Date().valueOf(),
                 method = 'GET';
-            this.$http({url: url, method: method}).then(function(res) {
+            this.$http({url: url, method: method}).then(function (res) {
                 this.menuData = res.data;
                 this.setBs();
-                for(var k in this.menuData) {
+                for (var k in this.menuData) {
                     var item = this.menuData[k];
-                    if(item && item.length) {
+                    if (item && item.length) {
                         this.turnDemo(item[0]);
                         break;
                     }
                 }
-            }, function() {
+            }, function () {
                 console.info('error')
             });
         },
 
         getPageCode: function (url) {
-            return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function(res) {
+            return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function (res) {
                 return res.body;
-            }, function() {
+            }, function () {
                 console.info('error')
             });
         },
