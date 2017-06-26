@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=bulateIE7" />
+    <title>卫星图-底图</title>
+<style type="text/css">
+#mapDiv { border: 1px solid black; width: 800px; height: 600px; overflow: hidden;}
+#mapDiv, .box { float: left; }
+</style>
+<script type="text/javascript" src="../../mapbard31.3.js"></script>
+<script  type="text/javascript">
+
+/**-------地图初始化相关变量----------**/
+var maplet = null, //地图实例化对象
+	zoomLevel = 10, //地图初始化级别
+	center = '87.60138,43.82177';
+function initMap() {
+	maplet = new Maplet("mapDiv");	
+	maplet.centerAndZoom(new MPoint(center), zoomLevel);
+	maplet.addControl(new MStandardControl());
+};
+var serverPath = 'http://223.71.139.100:3001/map/';
+function processFun (bx, by, zoom) {	
+	return serverPath + zoom + '/' + bx + '/' + by + '/';
+}
+//切换到默认底图
+function mMap () {
+	maplet.setBasemapImg();
+}
+//切换到卫星图
+function sMap() {
+	maplet.setBasemapImg({
+		imgUrlProcessor: processFun
+	});
+}
+window.onload = initMap;
+</script>
+</head>
+	<body>		
+		<!--地图主容器-->
+		<div id="mapDiv"></div>
+		<div class="box">
+			<button onclick="mMap();">原始底图</button>
+			<button onclick="sMap();">卫星图</button>
+		</div>
+	</body>
+</html>
