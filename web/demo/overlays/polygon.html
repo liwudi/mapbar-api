@@ -21,6 +21,31 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            var points = [];
+            var p1 = new MPoint(116.387112,39.920977);
+            var p2 = new MPoint(116.385243,39.913063);
+            var p3 = new MPoint(116.394226,39.917988);
+            var p4 = new MPoint(116.401772,39.921364);
+            var p5 = new MPoint(116.41248,39.927893);
+            points.push(p1);
+            points.push(p2);
+            points.push(p3);
+            points.push(p4);
+            points.push(p5);
+            polygon(points);
+            maplet.setAutoZoom();
+        }
+        function polygon(points){
+            var polygonstroke = 5;//宽
+            var polygonColor = "red";//颜色
+            var aBrush = new MBrush(polygonColor,polygonstroke);
+            aBrush.bgcolor = "#2497c7";//背景颜色
+            aBrush.fill = true; //闭合
+
+            var line = new MPolyline(points,aBrush,new MInfoWindow("标题","内容"));
+            //line.setEditable(true); //自由变化多边形
+            maplet.addOverlay(line);
         }
     </script>
 </head>
