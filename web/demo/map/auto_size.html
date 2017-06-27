@@ -16,7 +16,18 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            outoResize(); //默认尺寸
+            window.onresize = function(){
+                outoResize();
+            }//调整大小显示尺寸
         }
+        function outoResize() {
+            if(maplet) { //自适应外部尺寸
+                maplet.resize(document.body.clientWidth, document.body.clientHeight);
+            }
+        }
+
     </script>
 </head>
 <body onload="initMap();">
