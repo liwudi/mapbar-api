@@ -21,28 +21,20 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-			
 			//设置地图模式为画线模式  drawline为画线模式
 			maplet.setMode("drawline",drawlineFn);
-			
         };
 		function drawlineFn(dataObj){
-			/*	
-				dataObj是对象类型 有三个属性
-				dataObj.brush   // MBrush 类型 , 包含了折线的样式信息
-				dataObj.points  // MPoint 对象数组 , 包含了折线的点对象集合
-				dataObj.zoom    // Integer 类型 地图当前的缩放级别
-			*/
+			// dataObj是对象类型 有三个属性
 			var brush = new MBrush();
-			brush.color="green";
 			polyline = new MPolyline(
-				dataObj.points,
+				dataObj.points, 		 // MPoint 对象数组 , 包含了折线的点对象集合
 				brush,
-				new MInfoWindow('窗口标题',"内容")
+				new MInfoWindow('窗口标题',"内容") // 可选
 			);
-			maplet.addOverlay(polyline);
-        	polyline.openInfoWindow();	
-			maplet.setMode("pan");  //将地图模式恢复为移动模式
+			maplet.addOverlay(polyline); // 将画好的线添加到地图上
+        	polyline.openInfoWindow();	 // 同时打开信息窗口
+			maplet.setMode("pan"); 		 // 一定将地图模式恢复为移动模式 , 以使地图正常使用
 		};
     </script>
 </head>
