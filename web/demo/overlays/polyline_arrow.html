@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -12,6 +12,9 @@
             height: 100%;
             overflow: hidden;
         }
+		a{
+			padding-right: 15px;
+		}
     </style>
     <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
     <script type="text/javascript">
@@ -20,7 +23,81 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-        }
+		/*
+			MPolyline类  在地图上绘制折线的地图叠加物
+			参数有三个 :
+				第一个是数组 , 包含了这显得点序列集合 , 是类型为MPoint的对象数组
+				第二个是MBrush类型 , 画笔对象 , 包含了绘制直线的样式信息
+				第三个是MInfoWindow类型 , 信息窗口对象 , 包含折线的详细描述信息
+		*/	
+		/*
+			MBrush 类  画笔对象
+			无参数
+		*/		
+			
+// 简单的折线	
+			var brush = new MBrush();
+			brush.arrow = true; 		// 尾部加箭头
+			brush.style = 0; 	    	// 获取或设置折线的样式   0为实线   1为虚线
+			brush.stroke=6;  	    	// 折线的粗细  单位:像素
+			brush.color="green"; 		// 折线的颜色 默认 : 红色
+			//brush.transparency = 25;	// 折线的透明度 值越大 , 透明度越低
+			
+		//	brush.fill = true;			// 可填充
+		//	brush.bgtransparency = 20; // 填充的透明度  值越大 , 透明度越低
+		//	brush.bgcolor = "#000";     // 填充颜色
+			
+ 			polyline = new MPolyline(
+				[
+					new MPoint(118.33217,39.94761),
+                    new MPoint(116.43707,40.9429),
+                    new MPoint(116.44206,39.87544)
+				],
+				brush,
+				new MInfoWindow('窗口标题',"内容"+"<br><a href='javascript:void(0);' onclick='editPolyline();''>编辑</a><a href='javascript:void(0);' onclick='removePolyline();''>删除</a>")
+			);
+			maplet.addOverlay(polyline);
+        	polyline.openInfoWindow();
+			
+			
+			
+// 画线模式下
+			maplet.setMode("drawline",drawlineFn);
+        };
+		function drawlineFn(dataObj){
+			
+			var brush2 = new MBrush();
+			brush2.arrow=true;
+			brush2.color="green";
+			var polyline2 = new MPolyline(
+				dataObj.points,
+				brush2,
+				new MInfoWindow('窗口标题',"内容")
+			);
+			maplet.addOverlay(polyline2);
+        	polyline2.openInfoWindow();	
+			maplet.setMode("pan");  //将地图模式恢复为移动模式
+		};
+// 编辑折线
+		function editPolyline(){
+			polyline.setEditable(true);  // 折线可以编辑
+			MEvent.addListener(maplet, "edit", editEnd);  
+		};
+		function editEnd(overlay){
+			overlay.setEditable(false); 
+			var msg = "";  
+            for(var i=0; i<overlay.pts.length; i++){ 
+                msg += overlay.pts[i].getPid() + ";";  
+			};
+            console.log("折线对象点集合：\n" + msg.substring(0,msg.length-1));  
+		}
+// 删除折线
+		function removePolyline(){
+			maplet.removeOverlay(polyline);  
+			maplet.hideBubble();
+		}
+		
+	
     </script>
 </head>
 <body onload="initMap();">
