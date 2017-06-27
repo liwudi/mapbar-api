@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -21,7 +21,73 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-        }
+			
+			/*
+			**一	在地图上标注步骤:
+			**		1 使用 MMarker 类标注地图上的位置
+			**		2 使用 maplet.addOverlay() 添加到地图中 . 		
+			*/
+			/*二 MMarker类和addOverlay()使用
+			 		1 : MMarker类 ( 共有五个参数 ) 使用
+
+						MMarker实例名 = new MMarker(
+							MPoint类型,  		// (必选) 包含此标注在地图上的地理位置信息
+							MIcon类型 ,  		// (必选) 表示该标注的图像信息
+							MInfoWindow类型 , // 此标注的详细描述信息
+							MLabel类型 , 		// 此标注的标签名称
+							MIconShadow类型 , // 此标注的图标阴影信息
+						);
+						返回 MMarker 对象
+
+					2 : maplet.addOverlay(MMarker实例名); 	
+			*/
+			/*三 代码示例
+			
+				 1 简单的标注 : 见示例一 ;
+				
+				 2 用户在地图上点击的位置标注 : 见示例二
+				 	  设置地图操作模式 maplet.setMode(strMode , callbackFunction );;
+					  				参数 : 
+										strMode  : 字符串 共有9个模式 表示地图操作模式的字符串常量
+												   标注模式是bookmark  
+										callback : 操作完成后触发的函数 , 参数是对象类型 , 
+													参数 {
+														point : null, // MPoint类型
+														zoom  : 0     // Integer类型 , 地图当前的缩放级别
+													}
+					设置了地图的操作模式后 . 一定要把操作模式恢复到移动模式 , 否则地图不能正常使用									
+			*/
+			
+	// 示例一
+			var marker1 = new MMarker(  
+                new MPoint(116.38672,39.90805),  
+                new MIcon("http://union.mapbar.com/apidoc/images/tb2.gif",32,32)  
+            );  
+  
+            maplet.addOverlay(marker1);  
+			
+	// 示例二
+			maplet.setMode("bookmark", onBookmark);	
+        };
+		function onBookmark(dataObj){
+			marker2 = new MMarker(
+                dataObj.point, //用户点击的位置
+                new MIcon("http://union.mapbar.com/apidoc/images/tb2.gif", 32, 32, 16, 32),
+                new MInfoWindow("请填写标注信息","内容"+"<br><a href='javascript:void(0);'  onclick='removeMarker();''>删除</a>")
+            );
+            maplet.addOverlay(marker2);
+			marker2.openInfoWindow(); //打开信息窗口
+            maplet.setMode("pan");
+		};
+	//删除标注 
+			// maplet.removeOverlay(overlay , finalizr) 两个参数
+			// 第一个参数是需要删除的叠加物类型的对象实例 
+			// 第二个参数是Boolean类型 , 是否释放内存 , 为true,叠加物将不可再次添加到地图上
+		function removeMarker(){
+			maplet.removeOverlay(marker2); 
+			maplet.hideBubble();  //关闭当前打开的信息窗口
+		}
+		
     </script>
 </head>
 <body onload="initMap();">
