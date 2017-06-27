@@ -22,6 +22,11 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            //测距模式
+            MEvent.addListener(maplet,"click",function(){
+                maplet.setMode('measure');
+            })
         }
     </script>
 </head>

@@ -4,12 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>缩放模式</title>
-    <meta name="description" content="使用鼠标滚轮触发事件">
+    <title>屏幕坐标转地理坐标</title>
+    <meta name="description" content="鼠标在地图上点击，双击结束画线模式，将返回的坐标收集起来，可以创建折线或者多边形">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; 
-            padding: 0;
+            margin: 0; padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -22,23 +21,6 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-
-            // 先放大
-            maplet.setMode('zoomin', onZoomin);
-        }
-
-        function onZoomin(zoom) {
-            zoom = 6;
-            alert('当前缩放级别为：' + zoom);
-            maplet.setMode('pan');
-            // 后缩小
-            maplet.setMode('zoomout', onZoomout);
-        }
-
-        function onZoomout(zoom) {
-            zoom = 12;
-            alert('当前缩放级别为：' + zoom);
-            maplet.setMode('pan');
         }
     </script>
 </head>

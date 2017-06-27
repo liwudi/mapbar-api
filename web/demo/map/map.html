@@ -4,14 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>标注</title>
+    <title>简单的地图</title>
+    <meta name="description" content="简单的地图">
     <style type="text/css">
-        html, body, #mapDiv {
-            margin: 0; padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body, #mapDiv {margin: 0; padding: 0; width: 100%; height: 100%;}
     </style>
     <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
     <script type="text/javascript">
@@ -20,15 +16,7 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-			// 创建标注
-			var marker = new MMarker(  
-                new MPoint(116.38672,39.90805),  
-                new MIcon("http://union.mapbar.com/apidoc/images/tb2.gif",32,32),
-				new MInfoWindow('标记',"标记说明")
-            );  
-            maplet.addOverlay(marker);  //将标注添加到地图上
-			marker.openInfoWindow();
-		};
+        }
     </script>
 </head>
 <body onload="initMap();">

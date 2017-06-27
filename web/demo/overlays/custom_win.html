@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>自定义信息窗口</title>
+    <meta name="description" content="">
+    <style type="text/css">
+        .customBubble{
+            position:absolute;
+            width:256px;
+            height:236px;
+            left: -130px;
+            top: -270px;
+            background:white;
+            border: 2px solid rgb(14, 52, 127);
+        }
+        .customBubble .arrow{
+            position:absolute;
+            height: 15px;
+            width: 26px;
+            left: 115px;
+            bottom: -15px;
+            background-image: url('http://img.mapbar.com/maplite/images/mapbar31.2.1.png');
+            background-position: -41px -192px;
+            overflow:hidden;
+            -moz-user-select:none;
+            -moz-user-focus:none;
+        }
+        .customBubble .content{
+            /*控制内容区域*/
+        }
+    </style>
+</head>
+<body>
+<div id="mapDiv" style="border:1px solid black; width:400px; height:400px;"></div>
+
+<!-- 自定义气泡Dom结构 -->
+<div id="customBubble" class="customBubble">
+    <div class="arrow"></div>
+    <div class="content">
+        自定义内容...
+    </div>
+</div>
+
+<script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+<script type="text/javascript">
+    var maplet = null,
+            marker = null,
+            center = new MPoint("116.39748,39.90881"),
+            point = new MPoint("116.39748,39.82881");
+
+    function initMap() {
+        maplet = new Maplet("mapDiv");
+        maplet.centerAndZoom(center, 11);
+        maplet.showOverview(true, false);
+        maplet.addControl(new MStandardControl());
+        maplet.customInfoWindow = true;
+
+        marker = new MMarker(
+                point,
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32)
+        );
+        maplet.addOverlay(marker);
+    };
+
+    //自定义气泡
+    function initBubble() {
+        var bubbleDom = document.getElementById("customBubble");
+        var options = {
+            pin: true,
+            zindex: 6,
+            content: bubbleDom,
+            zoomhide: true
+        };
+        p = new MPanel(options);
+        p.setLocation({
+            x: marker.pt.mapX,
+            y: marker.pt.mapY
+        });
+        maplet.addPanel(p);
+    }
+
+    window.onload = function() {
+        initMap();
+        initBubble();
+    };
+</script>
+</body>
+</html>

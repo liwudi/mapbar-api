@@ -32,10 +32,14 @@ function readFile(path, filesList) {
         }
         else {
             var filePath = path + '/' + file;
-            var obj = readFileTitle(filePath);
-            obj.path = filePath.replace(/web\//, ''); //文件绝对路径
-            obj.type = 'file';
-            filesList.push(obj);
+            if(filePath.indexOf('.html') > -1) {
+                var obj = readFileTitle(filePath);
+                obj.path = filePath.replace(/web\//, ''); //文件绝对路径
+                obj.type = 'file';
+            //    console.info(obj.path)
+                filesList.push(obj);
+            }
+
         }
     }
 }

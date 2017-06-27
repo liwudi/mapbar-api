@@ -4,24 +4,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>实时路况</title>
-    <meta name="description" content="图吧实时路况">
+    <title>热力图</title>
+    <meta name="description" content="热力图只支持ie10以上的浏览器">
     <style type="text/css">
         html, body, #mapDiv {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
     </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <!--热力图数据文件-->
+    <script type="text/javascript" src="data/data_for_heat_map.js"></script>
     <script type="text/javascript">
+        var maplet = null;
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            initHeatMap();
+        }
+        //初始化热力图
+        function initHeatMap() {
+            Maplet.plugin('http://api.mapbar.com/api/plugin/MHeatMap.js', function () {
+                heatMap = maplet.enableHeatmap({
+                    minZoomLevel: 4,
+                    radius: 25,
+                    dataMax: 300,
+                    autoRender: true
+                }, heatMapData);
+            });
         }
     </script>
 </head>
