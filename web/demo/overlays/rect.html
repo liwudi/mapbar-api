@@ -8,7 +8,8 @@
     <meta name="description" content="">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -21,6 +22,21 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            var minpt = new MPoint(116.3964266800,39.9041761500); // 北京市
+            var maxpt = new MPoint(117.1906635600,39.0879286000); // 天津市
+            var arcsize = 0;
+            var brush = new MBrush();
+            brush.color = 'red';
+            brush.fill = true;
+            brush.bgColor = 'gray';
+            brush.transparency = 80;
+            brush.bgtransparency = 20;
+            var infoWin = new MInfoWindow('信息窗口标题：北京市-天津市', '信息窗口内容：点击关闭按钮可关闭信息窗口，单击叠加物填充区域可再次弹出信息窗口');
+
+            var roundRect = new MRoundRect(minpt, maxpt, arcsize, brush, infoWin);
+            maplet.addOverlay(roundRect);
+            roundRect.openInfoWindow();
         }
     </script>
 </head>
