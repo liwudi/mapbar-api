@@ -27,7 +27,7 @@ html, body, .m-wrapper {
 .m-menu {
     width: 240px;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     padding: 10px;
 }
@@ -40,6 +40,23 @@ html, body, .m-wrapper {
     border-color: #ddd;
 }
 .panel {margin-bottom: 0;}
+.panel-title>a{
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+    font-weight: bolder;
+}
+.panel-title>a:after{
+    content: '-';
+    float: right;
+    font-weight: bolder;
+}
+.panel-title>a.collapsed:after{
+    content: '+';
+}
+
+
+
 .m-item-hide + * {
     display: none;
 }

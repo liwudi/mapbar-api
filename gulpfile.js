@@ -17,7 +17,7 @@ gulp.task('data', function () {
 
 gulp.task('server', function() {
     connect.server({
-        livereload: true,
+        livereload: false,
         port: 8080
     });
 });
