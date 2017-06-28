@@ -1,72 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>自定义缩放按钮</title>
-    <meta name="description" content="使用面板panel，在地图上创建两个按钮，实现地图级别的放大/缩小功能">
-    <style type="text/css">
-        html, body, #mapDiv {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-		.btn_box button{
-			width:80px;
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>自定义缩放按钮</title>
+	<meta name="description" content="使用面板panel，在地图上创建两个按钮，实现地图级别的放大/缩小功能">
+	<style type="text/css">
+		html,
+		body,
+		#mapDiv {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+		
+		.btn_box button {
+			width: 80px;
 			height: 40px;
 			font-size: 16px;
-
 		}
-    </style>
-    <script type="text/javascript" src="../mapbard31.3.js"></script>
-    <script type="text/javascript">
 
-        var maplet = null;
+	</style>
+	<script type="text/javascript" src="../mapbard31.3.js"></script>
+	<script type="text/javascript">
+		var maplet = null;
 		var zoomLevel;
-        //初始化地图
-        function initMap() {
-            maplet = new Maplet("mapDiv");
-            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
-            maplet.addControl(new MStandardControl());
-			
+		//初始化地图
+		function initMap() {
+			maplet = new Maplet("mapDiv");
+			maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+			maplet.addControl(new MStandardControl());
+
 			// 使用面板panel 在地图上创建两个按钮
 			var panel = new MPanel({
-				pin:false,
-				zindex:2,
-				content:"<div class='btn_box'><button onclick='amplification()'>放大</button><button onclick='narrow()'>缩小</button></div>",
-				location:{
-					type:"xy",
-					x:100,
-					y:0
+				pin: false,
+				zindex: 2,
+				content: "<div class='btn_box'><button onclick='zoomIn()'>放大</button><button onclick='zoomOut()'>缩小</button></div>",
+				location: {
+					type: "xy",
+					x: 100,
+					y: 0
 				},
-				mousewheel:true
+				mousewheel: true
 			});
 			maplet.addOverlay(panel);
-			
+
 			zoomLevel = maplet.getZoomLevel();
-        };
+		};
 		//放大
-		function amplification(){
-			zoomLevel++;
-			if(zoomLevel>17){
-				zoomLevel=17;
-			};
-			maplet.setZoomLevel(zoomLevel); // 将缩放级别设置为给定的值  参数为 Integer 类型
+		function zoomIn() {
+			maplet.zoomIn();
 		};
 		//缩小
-		function narrow(){
-			zoomLevel--;
-			if(zoomLevel<0){
-				zoomLevel=0;
-			};
-			maplet.setZoomLevel(zoomLevel);
+		function zoomOut() {
+			maplet.zoomOut();
 		};
-    </script>
+
+	</script>
 </head>
+
 <body onload="initMap();">
-<!--地图主容器-->
-<div id="mapDiv"></div>
+	<!--地图主容器-->
+	<div id="mapDiv"></div>
 </body>
+
 </html>
