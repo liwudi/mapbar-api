@@ -1,59 +1,49 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=bulateIE7" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=bulateIE7"/>
     <title>卫星图-叠加层</title>
-<style type="text/css">
-#mapDiv { border: 1px solid black; width: 800px; height: 600px; overflow: hidden;}
-#mapDiv, .box { float: left; }
-</style>
-	<script type="text/javascript" src="../mapbard31.3.js"></script>
-<script  type="text/javascript">
+    <meta name="description" content="卫星影像图作为叠加层铺在地图底图上">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+        var maplet = null, serverPath = 'http://223.71.139.100:3000/map/';
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            sateliteMap();
+        }
 
-/**-------地图初始化相关变量----------**/
-var maplet = null, //地图实例化对象
-	zoomLevel = 10, //地图初始化级别
-	center = '87.60138,43.82177';
-var layer = null;
-function initMap() {
-	maplet = new Maplet("mapDiv");	
-	maplet.centerAndZoom(new MPoint(center), zoomLevel);
-	maplet.addControl(new MStandardControl());
-};
-var serverPath = 'http://223.71.139.100:3001/map/';
-function createLayer () {
-	layer = new MLayer({
-		minLevel: 8,
-		maxLevel: 18
-	});
-	preProcessFun = function (grid) {	//服务地址预处理函数
-		var bx = grid.gridx, by = grid.gridy,
-			zoom = maplet.getZoomLevel();
-		return serverPath + zoom + '/' + bx + '/' + by + '/';
-	};
-	layer.setImgUrlPreprocessor({fun : preProcessFun});
-	maplet.addLayer(layer);
-}
+        //服务地址预处理函数
+        function preProcessFun(grid) {
+            var gridx = grid.gridx, gridy = grid.gridy, zoom = maplet.getZoomLevel();
+            return serverPath + zoom + '/' + gridx + '/' + gridy + '/';
+        }
 
-//切换到默认底图
-function mMap () {
-	layer.hide();
-}
-//切换到卫星图
-function sMap() {
-	if(!layer) createLayer();
-	layer.show();
-}
-window.onload = initMap;
-</script>
+        function sateliteMap() {
+            layer = new MLayer({
+                imgUrlPreprocessor: {
+                    fun: preProcessFun
+                }
+            });
+            maplet.addLayer(layer);
+        }
+
+        window.onload = initMap;
+    </script>
 </head>
-	<body>		
-		<!--地图主容器-->
-		<div id="mapDiv"></div>
-		<div class="box">
-			<button onclick="mMap();">原始底图</button>
-			<button onclick="sMap();">卫星图</button>
-		</div>
-	</body>
+<body>
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
 </html>

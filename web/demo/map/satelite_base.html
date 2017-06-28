@@ -25,14 +25,15 @@
             sateliteMap();
         }
 
-        function processFun(gridx, gridy, zoom) {
+        //服务地址预处理函数
+        function preProcessFun(gridx, gridy, zoom) {
             return serverPath + zoom + '/' + gridx + '/' + gridy + '/';
         }
 
         //使用卫星图
         function sateliteMap() {
             maplet.setBasemapImg({
-                imgUrlProcessor: processFun
+                imgUrlProcessor: preProcessFun
             });
         }
 
