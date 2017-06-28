@@ -16,6 +16,7 @@
     <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
     <script type="text/javascript">
         //初始化地图
+		var maplet = null;
         function initMap() {
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
