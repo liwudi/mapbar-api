@@ -25,7 +25,7 @@
             maplet.addControl(new MStandardControl());
             //zoom 缩放事件  maplet.getZoomLevel() 获取地图级别
             MEvent.addListener(maplet, "zoom", function() {
-                alert("当前地图级别为:"+maplet.getZoomLevel());
+                alert("您缩放了地图" + "\n当前地图级别为:"+maplet.getZoomLevel());
             })
         }
     </script>
