@@ -40,14 +40,18 @@
 				zindex:5,
 				content:"<div class='center panelContainer'>这是一个跟随地图移动的panel示例</div>",
 				location:{
-					type:"xy",
-					x:200,
-					y:200,
+					type:"latlon",
+					pt:new MPoint('116.40049,39.9208')
 				},
 				mousewheel:true
             });
             
             maplet.addOverlay(panel);
+            
+            MEvent.addListener(maplet,'pan',function(e){
+            	maplet.removeOverlay(panel, false)
+            	maplet.addOverlay(panel);
+            });
         }
     </script>
 </head>

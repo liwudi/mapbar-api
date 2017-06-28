@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; 
+            margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
@@ -17,6 +17,8 @@
     </style>
     <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
     <script type="text/javascript">
+
+        var maplet = null;
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
@@ -24,18 +26,18 @@
             maplet.addControl(new MStandardControl());
 
             var polyline = new MPolyline(
-                [
-                    new MPoint(116.4736553400,39.9023037200),  // 北京东站
-                    new MPoint(116.3686450900,39.8646284600),  // 北京南站
-                    new MPoint(116.3215039656,39.8943256688), // 北京西站
-                    new MPoint(116.3430660800,39.9423642100),  // 北京北站
-                    new MPoint(116.4163221700,39.9032633700), // 北京站
-                ],
-                new MBrush(),
-                new MInfoWindow("信息窗口标题：此处是北京五大火车站", "信息窗口内容：地理坐标数据由图吧地图提供")
+                    [
+                        new MPoint(116.4736553400, 39.9023037200),  // 北京东站
+                        new MPoint(116.3686450900, 39.8646284600),  // 北京南站
+                        new MPoint(116.3215039656, 39.8943256688), // 北京西站
+                        new MPoint(116.3430660800, 39.9423642100),  // 北京北站
+                        new MPoint(116.4163221700, 39.9032633700), // 北京站
+                    ],
+                    new MBrush(),
+                    new MInfoWindow("信息窗口标题：此处是北京五大火车站", "信息窗口内容：地理坐标数据由图吧地图提供")
             );
-			maplet.addOverlay(polyline);
-			polyline.openInfoWindow();
+            maplet.addOverlay(polyline);
+            polyline.openInfoWindow();
         }
     </script>
 </head>
