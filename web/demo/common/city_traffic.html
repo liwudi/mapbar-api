@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>城市路况</title>
+    <meta name="description" content="城市路况。在‘选择城市’中切换城市">
+    <style type="text/css">
+        html, body, #mapDiv { margin: 0; padding: 0; width: 100%; height: 100% }
+        #city { position: absolute; z-index: 2; top: 0; left: 0; margin: 10px; font-size: 12px; color: #555555 }
+        #city:before, #city a { display: inline-block; line-height: 1; padding: 5px; background-color: #ffffff }
+        #city:before { content: "选择城市"; border: 1px solid }
+        #city > div { width: 260px; display: none; background-color: #ffffff; border: 1px solid }
+        #city:hover > div { display: block }
+        #city a:hover, #city .on { background-color: #eeeeee }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <!--城市数据文件-->
+    <script type="text/javascript" src="data/data_for_traffic.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null,
+            serverPath = 'http://carnavi.mapbar.com/ykTMC/02/GetPng?', //踣况服务地址
+            layer = null, //踣况叠加层
+            cityList = null,    //城市列表
+            currentCity = '北京市', currentPy = 'beijing'; //当前城市的名称和拼音
+        
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint(currentCity), 10);
+        }
+
+        //服务地址预处理函数
+        function preProcessFun(grid) {
+            return serverPath + 'city=' + currentPy + '&' + grid.filename + '&_=' + new Date().valueOf();
+        }
+
+        //创建路况叠加层
+        function createLayer() {
+            layer = new MLayer({
+                imgUrlPreprocessor: {fun: preProcessFun}
+            });
+            maplet.addLayer(layer);
+        }
+
+        function showLayer() {
+            if (!layer) createLayer();   //创建叠加层，叠加层只创建一次就可以，之后可以使用 show()/hide() 方法操作
+            maplet.setCenter(new MPoint(currentCity));
+        }
+
+        //切换城市
+        function turnCity(e) {
+            e = e || event;
+            e.stopPropagation && e.stopPropagation();
+            var city = e.target || e.srcElement;
+            currentCity = city.innerHTML;
+            currentPy = cityData[currentCity];
+            showLayer();
+            setCityList();		//初始化城市列表，这是为了重载 ‘on’ 样式
+        }
+
+        //初始化城市列表元素
+        function initCityList() {
+            cityList = document.querySelector('#city-list');
+            cityList.onclick = turnCity;
+            turnCity({target: {innerHTML: currentCity}});
+        }
+
+        //设置填充城市
+        function setCityList() {
+            var str = [];
+            for (var c in cityData) {
+                var on = currentCity === c ? ' class="on"' : '';
+                str.push('<a' + on + '>' + c + '</a>');
+            }
+            cityList.innerHTML = str.join('');
+        }
+
+        window.onload = function () {
+            initMap();
+            initCityList();
+        };
+    </script>
+</head>
+<body>
+<!--地图主容器-->
+<div id="mapDiv"></div>
+<div id="city">
+    <div id="city-list"></div>
+</div>
+</body>
+</html>
