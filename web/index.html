@@ -12,13 +12,13 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">web端地图示例</a>
+                <a class="navbar-brand">web端地图示例</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li @click="setCodeVisible()" :class="!showCode && 'active'"><a href="#">地图</a></li>
-                    <li @click="setCodeVisible(true)" :class="showCode && 'active'"><a href="#">代码</a></li>
-                    <li @click="setDescVisible()" :class="showDesc && 'active'"><a href="#">描述</a></li>
+                    <li @click="setCodeVisible()" :class="!showCode && 'active'"><a>地图</a></li>
+                    <li @click="setCodeVisible(true)" :class="showCode && 'active'"><a>代码</a></li>
+                    <li @click="setDescVisible()" :class="showDesc && 'active'"><a>描述</a></li>
                 </ul>
             </div>
         </div>
