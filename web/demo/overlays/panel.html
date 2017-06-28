@@ -13,6 +13,17 @@
             height: 100%;
             overflow: hidden;
         }
+        .center{
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+        }
+        .panelContainer{
+        	width: 200px;
+        	height: 200px;
+        	background: #CCCCCC;
+        	color: red;
+        }
     </style>
     <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
     <script type="text/javascript">
@@ -21,7 +32,6 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
-            
             //面板
             var panel = new MPanel({
             	pin:false,
@@ -31,7 +41,7 @@
 					type:"xy",
 					x:200,
 					y:200,
-				}, 
+				},
 				mousewheel:true
             });
             
