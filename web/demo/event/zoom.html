@@ -23,6 +23,10 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            //zoom 缩放事件  maplet.getZoomLevel() 获取地图级别
+            MEvent.addListener(maplet, "zoom", function() {
+                alert("您缩放了地图" + "\n当前地图级别为:"+maplet.getZoomLevel());
+            })
         }
     </script>
 </head>
