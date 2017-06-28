@@ -1,16 +1,9 @@
-/**
- * Created by cryst on 2017/6/21.
- */
-
 new Vue({
     el: '#app',
     data: {
         menuData: [],
         page: {
-            path: '',
-            desc: '',
-            title: '',
-            code: ''
+            path: '', desc: '', title: '', code: ''
         },
         showCode: false,
         showDesc: true,
@@ -21,11 +14,11 @@ new Vue({
     },
     methods: {
         setBs: function () {
-            setTimeout(function () {
-                $('.panel-collapse').each(function () {
-                    $(this).collapse('show');
-                });
-            }, 1000);
+            $('.panel-collapse').collapse('show');
+        },
+        getHash: function () {
+            var hash = window.location.hash;
+            return hash ? decodeURIComponent(hash) : null;
         },
         turnDemo: function (item) {
             if (item.code) {
@@ -33,43 +26,30 @@ new Vue({
                 this.page = item;
                 window.location.hash = encodeURIComponent(item.path);
             } else {
-                this.getPageCode(item.path).then(function (code) {
-                    item.code = code;
+                this.request(item.path).then(function (res) {
+                    item.code = res.body;
                     this.turnDemo(item);
                 });
             }
         },
+        request: function (url) {
+            return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'});
+        },
         getMenu: function () {
-            var url = './frame/data.json?' + new Date().valueOf(),
-                method = 'GET';
-            this.$http({url: url, method: method}).then(function (res) {
+            this.request('./frame/data.json').then(function (res) {
                 var menuData = this.menuData = res.data;
-                this.setBs();
-                var hash = window.location.hash;
-                    hash = hash ? decodeURIComponent(hash) : null;
-                var find = false;
+                setTimeout(this.setBs, 1000);
+                var hash = this.getHash(), find = false;
                 for (var k in menuData) {
-                    var list = menuData[k] || [];
-                    for(var i = 0; i < list.length; i ++) {
+                    for (var i = 0, list = menuData[k] || []; i < list.length; i++) {
                         var item = list[i];
-                        find = !hash || ('#' + item.path === hash);
-                        if(find) {
+                        if (find = !hash || ('#' + item.path === hash)) {
                             this.turnDemo(item);
                             break;
                         }
                     }
-                    if(find) break;
+                    if (find) break;
                 }
-            }, function () {
-                console.info('error')
-            });
-        },
-
-        getPageCode: function (url) {
-            return this.$http({url: url + '?' + new Date().valueOf(), method: 'GET'}).then(function (res) {
-                return res.body;
-            }, function () {
-                console.info('error')
             });
         },
         setCodeVisible: function (visible) {
