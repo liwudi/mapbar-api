@@ -23,6 +23,19 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            maplet.showControl(false);
+            /* showControl(visible)	设置平移/缩放控件(鱼骨)的可见性。
+             visible: Boolean 类型，true 为可见，false 为不可见。*/
+
+            maplet.showOverview(false);
+            /* showOverview(visible, state) 设置控制缩略图控件（鹰眼）的可见性，以及最小化/大化控件。
+             visible: Boolean 类型，true 表示显示缩略图控件，false 表示不显示。
+             state: Boolean 类型，true 表示最大化缩略图控件，false 表示最小化。*/
+
+            maplet.showScale(false);
+            /* showScale(visible) 设置比例尺控件的可见性
+             visible: Boolean 类型，true 为可见，false 为不可见 。*/
         }
     </script>
 </head>
