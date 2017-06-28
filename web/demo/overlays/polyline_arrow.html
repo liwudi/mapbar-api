@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>带箭头的折线</title>
-    <style type="text/css">
-        html, body, #mapDiv {
-            margin: 0; padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-    </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
-    <script type="text/javascript">
-        //初始化地图
-        function initMap() {
-            maplet = new Maplet("mapDiv");
-            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
-            maplet.addControl(new MStandardControl());
-			
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>带箭头的折线</title>
+	<style type="text/css">
+		html,
+		body,
+		#mapDiv {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+	</style>
+	<script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+	<script type="text/javascript">
+		//初始化地图
+		var maplet = null;
+
+		function initMap() {
+			maplet = new Maplet("mapDiv");
+			maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+			maplet.addControl(new MStandardControl());
 			// 带箭头的折线
 			var brush = new MBrush();
-			brush.arrow = true; 		// 尾部加箭头
+			brush.arrow = true; // 尾部加箭头
 
- 			polyline = new MPolyline(
+			polyline = new MPolyline(
 				[
-					new MPoint(118.33217,39.94761),
-                    new MPoint(116.43707,40.9429),
-                    new MPoint(116.44206,38.87544)
-				], 								 // 数组,包含了这显得点序列集合,是类型为MPoint的对象数组
-				brush, 							 // MBrush类型,画笔对象,包含了绘制直线的样式信息
-				new MInfoWindow('带箭头的折线',"折线说明") // MInfoWindow类型,信息窗口对象,包含折线的详细描述信息
+					new MPoint(118.33217, 39.94761),
+					new MPoint(116.43707, 40.9429),
+					new MPoint(116.44206, 38.87544)
+				], // 数组,包含了这显得点序列集合,是类型为MPoint的对象数组
+				brush, // MBrush类型,画笔对象,包含了绘制直线的样式信息
+				new MInfoWindow('带箭头的折线', "折线说明") // MInfoWindow类型,信息窗口对象,包含折线的详细描述信息
 			);
-			maplet.addOverlay(polyline);		 // 添加折线到地图上
-        	polyline.openInfoWindow();			 // 同时打开信息窗口
-        };
-    </script>
+			maplet.addOverlay(polyline); // 添加折线到地图上
+			polyline.openInfoWindow(); // 同时打开信息窗口
+		};
+
+	</script>
 </head>
+
 <body onload="initMap();">
-<!--地图主容器-->
-<div id="mapDiv"></div>
+	<!--地图主容器-->
+	<div id="mapDiv"></div>
 </body>
+
 </html>
