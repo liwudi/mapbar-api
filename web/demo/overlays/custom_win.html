@@ -4,82 +4,88 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>自定义信息窗口</title>
-    <meta name="description" content="">
+    <title>自定义窗口</title>
+    <meta name="description" content="根据需求:自定义信息窗口">
     <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0; padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
         .customBubble{
             position:absolute;
             width:256px;
-            height:236px;
-            left: -130px;
-            top: -270px;
+            height:auto;
+            padding: 5px;
+            margin-top: 110px;
+            margin-left: -280px;
             background:white;
-            border: 2px solid rgb(14, 52, 127);
+            box-sizing: border-box;
+            box-shadow: 1px 2px 1px rgba(0,0,0,.35);
+            border-radius: 4px
         }
-        .customBubble .arrow{
-            position:absolute;
-            height: 15px;
-            width: 26px;
-            left: 115px;
-            bottom: -15px;
-            background-image: url('http://img.mapbar.com/maplite/images/mapbar31.2.1.png');
-            background-position: -41px -192px;
-            overflow:hidden;
-            -moz-user-select:none;
-            -moz-user-focus:none;
+        .customBubble .title{
+
+            font-size: 14px;
+            line-height: 35px;
+            border-bottom: 1px solid #CCCCCC;
         }
+
         .customBubble .content{
             /*控制内容区域*/
+            padding: 5px;
+            font-size: 12px;
+            color: #333333
+        }
+        .customBubble .arrow {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 8px solid white;
+            position: absolute;
+            margin-top:5px;
+            margin-left:120px;
+
         }
     </style>
 </head>
 <body>
-<div id="mapDiv" style="border:1px solid black; width:400px; height:400px;"></div>
+<div id="mapDiv" ></div>
 
 <!-- 自定义气泡Dom结构 -->
 <div id="customBubble" class="customBubble">
-    <div class="arrow"></div>
+
+    <div class="title">自定义标题</div>
     <div class="content">
         自定义内容...
+
     </div>
+    <div class="arrow"></div>
 </div>
 
 <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
 <script type="text/javascript">
-    var maplet = null,
-            marker = null,
-            center = new MPoint("116.39748,39.90881"),
-            point = new MPoint("116.39748,39.82881");
+
 
     function initMap() {
         maplet = new Maplet("mapDiv");
-        maplet.centerAndZoom(center, 11);
-        maplet.showOverview(true, false);
+        maplet.centerAndZoom(new MPoint('116.404, 39.915'), 15);
         maplet.addControl(new MStandardControl());
-        maplet.customInfoWindow = true;
-
-        marker = new MMarker(
-                point,
-                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32)
-        );
-        maplet.addOverlay(marker);
     };
 
     //自定义气泡
     function initBubble() {
         var bubbleDom = document.getElementById("customBubble");
         var options = {
-            pin: true,
-            zindex: 6,
-            content: bubbleDom,
-            zoomhide: true
+            pin: true,//是否和地图移动
+            zindex: 6,//大于1才可见
+            content: bubbleDom,//显示内容
+            location:{pt: new MPoint(116.404, 39.915)}//地理坐标点
         };
-        p = new MPanel(options);
-        p.setLocation({
-            x: marker.pt.mapX,
-            y: marker.pt.mapY
-        });
-        maplet.addPanel(p);
+        Panel = new MPanel(options);
+        maplet.addPanel(Panel);//自定义信息窗口
     }
 
     window.onload = function() {
