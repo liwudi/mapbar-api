@@ -53,11 +53,11 @@
                 enableStyle: false, // 是否启用默认样式
                 visible: true  // 是否可见
             };
-            
+
             // 起点：石家庄市
             var start = new MMarker(
                     new MPoint(114.5184148300, 38.0449465700), // 点对象
-                    new MIcon("./images/start.png", 29, 36),  // 图标对象
+                    new MIcon("./images/start.png", 29, 36, 14.5, 36),  // 图标对象：(图标图像 url, 图标宽度, 图标高度, 图标与标注点的横向偏移值, 图标与标注点的纵向偏移值)
                     null,  // 信息窗口对象（可选）
                     new MLabel("<div class='label'>石家庄市</div>", options)  // 标签对象（可选）
             );
@@ -74,7 +74,7 @@
             // 终点：北京市
             var end = new MMarker(
                     new MPoint(116.3964266800, 39.9041761500),
-                    new MIcon("./images/end.png", 29, 36),
+                    new MIcon("./images/end.png", 29, 36, 15.5, 36),
                     null,
                     new MLabel("<div class='label red-label'>北京市</div>", options)
             );
