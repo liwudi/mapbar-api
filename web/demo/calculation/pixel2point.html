@@ -4,18 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>屏幕坐标转地理坐标</title>
-    <meta name="description" content="鼠标在地图上点击，双击结束画线模式，将返回的坐标收集起来，可以创建折线或者多边形">
+    <title>像素坐标转地理坐标</title>
+    <meta name="description" content="在相对于地图左上角30px,100px处，添加一个marker，marker的左下角在30px,100px的位置上">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
     </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
     <script type="text/javascript">
+        var maplet = null;
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
