@@ -23,6 +23,10 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            //pan 地图平移事件  maplet.getZoomLevel() 获取地图级别
+            MEvent.addListener(maplet, "pan", function() {
+                alert("您平移了地图" + "\n当前地图中心点:"+maplet.getCenter().pid);
+            })
         }
     </script>
 </head>

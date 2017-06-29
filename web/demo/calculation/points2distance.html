@@ -20,7 +20,33 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            //设定起点终点坐标
+            var start = new MPoint('116.40049,39.9208');
+            var end = new MPoint('115.40049,35.9208');
+            //把起点终点标记在地图上
+            var marker1 = new MMarker(
+                start,
+                new MIcon('http://union.mapbar.com/apidoc/images/tb1.gif', 32, 32)
+            );
+            var marker2 = new MMarker(
+                end,
+                new MIcon('http://union.mapbar.com/apidoc/images/tb2.gif', 32, 32)
+            );
+            maplet.addOverlay(marker1);
+            maplet.addOverlay(marker2);
+            //自动全览地图
+            setTimeout(function () {
+                maplet.setAutoZoom();
+            },1000);
+            //展示两点坐标距离
+            setTimeout(function () {
+                var array = [start,end]
+                var distance = maplet.measDistance(array,false);
+                alert("两点之间的距离为："+ distance + "米");
+            },2000)
         }
+
     </script>
 </head>
 <body onload="initMap();">
