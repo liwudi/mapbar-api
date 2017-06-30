@@ -1,50 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>全览叠加物</title>
-    <meta name="description" content="地图上有多个不同叠加物：标注，折线，圆等。2秒钟后，地图将缩放到合适级别，展示所有叠加物">
-    <style type="text/css">
-        html, body, #mapDiv {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
-    <script type="text/javascript" src="../mapbard31.3.js"></script>
-    <script type="text/javascript">
-        //初始化地图
-        var maplet = null;
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>全览叠加物</title>
+	<meta name="description" content="地图上有多个不同叠加物：标注，折线，圆等。2秒钟后，地图将缩放到合适级别，展示所有叠加物">
+	<style type="text/css">
+		html,
+		body,
+		#mapDiv {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
 
-        function initMap() {
-            maplet = new Maplet("mapDiv");
-            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
-            maplet.addControl(new MStandardControl());
+	</style>
+	<script type="text/javascript" src="../mapbard31.3.js"></script>
+	<script type="text/javascript">
+		//初始化地图
+		var maplet = null;
 
-            var latlons = ["110.40925,39.91323", "112.39897,38.91043", "108.407,30.89848", "120.443,41.89945", "116.45869,39.91381", "130.45869,10.91381"];
-            // 标注
-            for (var i = 0; i < latlons.length; i++) {
-                var newMarker = new MMarker(new MPoint(latlons[i]), new MIcon('http://union.mapbar.com/apidoc/images/tb2.gif', 32, 32));
-                maplet.addOverlay(newMarker);
-            }
-            // 折线
-            var polyline = new MPolyline([new MPoint(118.33217, 20.94761), new MPoint(110.43707, 20.9429), new MPoint(110.44206, 23.87544)], new MBrush());
-            maplet.addOverlay(polyline);
+		function initMap() {
+			maplet = new Maplet("mapDiv");
+			maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+			maplet.addControl(new MStandardControl());
 
-            setTimeout(function () {
-                maplet.setAutoZoom(); // 根据地图上叠加物的位置自动获取合适的比例尺
-            }, 2000);
-        }
+			var latlons = ["110.40925,39.91323", "112.39897,38.91043", "108.407,30.89848", "120.443,41.89945", "116.45869,39.91381", "130.45869,10.91381"];
+			// 标注
+			for (var i = 0; i < latlons.length; i++) {
+				var newMarker = new MMarker(new MPoint(latlons[i]),
+					new MIcon('http://union.mapbar.com/apidoc/images/tb2.gif', 32, 32));
+				maplet.addOverlay(newMarker);
+			};
+			// 折线
+			var polyline = new MPolyline([new MPoint(118.33217, 20.94761), new MPoint(110.43707, 20.9429), new MPoint(110.44206, 23.87544)], new MBrush());
+			maplet.addOverlay(polyline);
 
-    </script>
+			setTimeout(function() {
+					maplet.setAutoZoom(); // 根据地图上叠加物的位置自动获取合适的比例尺
+				},
+				2000)
+		}
+
+	</script>
 </head>
 
 <body onload="initMap();">
-<!--地图主容器-->
-<div id="mapDiv"></div>
+	<!--地图主容器-->
+	<div id="mapDiv"></div>
 </body>
 
 </html>
