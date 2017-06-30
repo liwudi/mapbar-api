@@ -27,7 +27,6 @@
 	<script type="text/javascript" src="../mapbard31.3.js"></script>
 	<script type="text/javascript">
 		var maplet = null;
-		var zoomLevel;
 		//初始化地图
 		function initMap() {
 			maplet = new Maplet("mapDiv");
@@ -46,13 +45,12 @@
 				},
 				mousewheel: true
 			});
-			maplet.addOverlay(panel);
-
-			zoomLevel = maplet.getZoomLevel();
+			maplet.addPanel(panel);
 		};
 		//放大
 		function zoomIn() {
 			maplet.zoomIn();
+
 		};
 		//缩小
 		function zoomOut() {
