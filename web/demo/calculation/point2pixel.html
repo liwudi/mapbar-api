@@ -20,22 +20,20 @@
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
-            maplet.centerAndZoom(new MPoint(116.38672,39.90805), 8);
+            maplet.centerAndZoom(new MPoint(116.38672, 39.90805), 8);
             maplet.addControl(new MStandardControl());
 
             var marker = new MMarker(
-                new MPoint(116.38672,39.90805),
-                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif",32,32)
+                new MPoint(116.38672, 39.90805),
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32, 16, 32)
             );
             maplet.addOverlay(marker); //添加标注点
 
-            marker.setEditable(true); //标注点可编辑
-            MEvent.addListener(maplet, "edit", PixelCoordinate);
-
+            //坚听地图平移事件
+            MEvent.addListener(maplet, "pan", function () {
+                alert("标注相对于地图左上角的像素坐标是:" + maplet.toScreenCoordinate(marker.pt.pid));
+            });
         }
-        function PixelCoordinate(data) {
-            alert("标注相对于地图左上角的像素坐标是:" + maplet.toScreenCoordinate( data.pt.pid));
-        }  //移动标注点时获取像素值
     </script>
 </head>
 <body onload="initMap();">
