@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
     <title>带路径箭头的折线</title>
-    <meta name="description" content="在地图上添加一条折线，折线带有箭头，并打开信息窗口">
+    <meta name="description" content="在地图上添加一条折线，在指定位置添加路径箭头">
     <style type="text/css">
         html, body, #mapDiv {
             margin: 0;
@@ -23,6 +23,42 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+            addOverlay();
+        }
+
+        //添加叠加物
+        function addOverlay() {
+            var brush = new MBrush();
+            //设置路径箭头样式
+            brush.dmstyle = {
+                color: 'green', //颜色，建议使用16进制
+                size: 50, //尺寸
+                transparency: 60, //透明度
+                strokeWidth: 2, //边框宽度
+                strokeColor: "black", //描边建议使用16进制
+                strokeTransparency: 100 //边框透明度
+            };
+            var pts = [
+                new MPoint(116.33217, 39.94761),
+                new MPoint(116.36306, 39.94236),
+                new MPoint(116.41632, 39.90326),
+                new MPoint(116.43707, 39.94293),
+                new MPoint(116.47365, 39.90230),
+                new MPoint(116.44206, 39.87544),
+                new MPoint(116.36864, 39.86462),
+                new MPoint(116.32150, 39.89432),
+                new MPoint(116.33924, 39.86687),
+                new MPoint(116.14883, 39.79218)
+            ];
+            var line = new MPolyline(pts, brush);
+            //设置路径箭头位置
+            line.setDirMark({
+                minLevel: 1, //启用此功能的最小级别。
+                maxLevel: 18,//启用此功能的最大级别。
+                pts: [1, 4, 5, 7, 8] //需要显示方向标的坐标数组索引位置，不包括起终点位置
+            });
+            maplet.addOverlay(line);
+            maplet.setAutoZoom();//设置全览叠加物，将叠加物缩放到合适比例
         }
     </script>
 </head>
