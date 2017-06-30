@@ -23,6 +23,25 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            maplet.setMode("lookup",onLookUp)
+        }
+        function onLookUp(dataObj) {
+            //获取矩形四个顶点，MPoint类型坐标。
+            var min = dataObj.min;
+            var max = dataObj.max;
+            var mmx = dataObj.mmx;
+            var mxm = dataObj.mxm;
+            //确定画圆的半径
+            var x = maplet.measDistance([mmx,max])/2;
+            var y = maplet.measDistance([mmx,min])/2;
+            //确定画圆的中心点坐标
+            var lat = (min.lat + max.lat)/2;
+            var lon = (min.lon + max.lon)/2;
+
+            var circle = new MEllipse(new MPoint(lon,lat), x, y);
+            maplet.addOverlay(circle);
+            maplet.setMode("pan");
         }
     </script>
 </head>
