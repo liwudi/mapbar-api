@@ -8,25 +8,29 @@
     <meta name="description" content="在地图上添加面板，该面板相对于地图容器定位，不能跟随地图移动">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
-        .center{
-        	display: flex;
-        	justify-content: center;
-        	align-items: center;
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .panelContainer{
-        	width: 200px;
-        	height: 200px;
-        	background: #CCCCCC;
-        	color: red;
+
+        .panelContainer {
+            width: 200px;
+            height: 200px;
+            background: #CCCCCC;
+            color: red;
         }
     </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
     <script type="text/javascript">
+
+        var maplet = null;
         //初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
@@ -34,17 +38,17 @@
             maplet.addControl(new MStandardControl());
             //面板
             var panel = new MPanel({
-            	pin:false,
-				zindex:5,
-				content:"<div class='center panelContainer'>这是一个panel示例</div>",
-				location:{
-					type:"xy",
-					x:200,
-					y:200
-				},
-				mousewheel:true
+                pin: false,
+                zindex: 5,
+                content: "<div class='center panelContainer'>这是一个panel示例</div>",
+                location: {
+                    type: "xy",
+                    x: 200,
+                    y: 200
+                },
+                mousewheel: true
             });
-            
+
             maplet.addPanel(panel);
         }
     </script>
