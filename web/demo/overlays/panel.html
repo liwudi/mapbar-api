@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
     <title>面板</title>
-    <meta name="description" content="">
+    <meta name="description" content="在地图上添加面板，该面板相对于地图容器定位，不能跟随地图移动">
     <style type="text/css">
         html, body, #mapDiv {
             margin: 0; padding: 0;
@@ -40,12 +40,12 @@
 				location:{
 					type:"xy",
 					x:200,
-					y:200,
+					y:200
 				},
 				mousewheel:true
             });
             
-            maplet.addOverlay(panel);
+            maplet.addPanel(panel);
         }
     </script>
 </head>
