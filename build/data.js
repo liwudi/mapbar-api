@@ -3,6 +3,15 @@
  */
 var fs = require('fs');
 
+var folder = {
+    map: '地图',
+    common: '综合',
+    event: '事件',
+    calculation: '计算',
+    mode: '模式',
+    overlays: '叠加物',
+    plugin: '插件'
+};
 
 //遍历文件夹，获取所有文件夹里面的文件信息
 /*
@@ -21,13 +30,10 @@ function readFile(path, filesList) {
     files.forEach(walk);
     function walk(file) {
         states = fs.statSync(path + '/' + file);
-        //if(!folder[file]) obj[file] = {};
         if (states.isDirectory()) {
-            var fobj = filesList[file];
-            if(!fobj) filesList[file] = fobj = [];
-            /*filesList.push({
-                type: 'folder', title: file
-            });*/
+            var _file = folder[file];
+            var fobj = filesList[_file];
+            if(!fobj) filesList[_file] = fobj = [];
             readFile(path + '/' + file, fobj);
         }
         else {
