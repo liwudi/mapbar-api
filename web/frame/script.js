@@ -3,7 +3,7 @@ new Vue({
     data: {
         menuData: [],
         page: {
-            path: '', desc: '', title: '', code: ''
+            path: '', code: '', desc: '', title: ''
         },
         showCode: false,
         showDesc: true,
@@ -11,20 +11,24 @@ new Vue({
     },
     mounted: function () {
         this.getMenu();
+        this.setActive();
+        window.addEventListener('hashchange', this.setActive);
     },
     methods: {
         setBs: function () {
             $('.panel-collapse').collapse('show');
         },
+        setActive: function () {
+            this.active = this.page.path = this.getHash();
+        },
         getHash: function () {
-            var hash = window.location.hash;
-            return hash ? decodeURIComponent(hash) : null;
+            return window.location.hash.replace('#', '') || './demo/map/map.html';
         },
         turnDemo: function (item) {
             if (item.code) {
-                this.active = item.path;
-                this.page = item;
-                window.location.hash = encodeURIComponent(item.path);
+                this.page.title = item.title;
+                this.page.desc = item.desc;
+                this.page.code = item.code;
             } else {
                 this.request(item.path).then(function (res) {
                     item.code = res.body;
@@ -43,7 +47,7 @@ new Vue({
                 for (var k in menuData) {
                     for (var i = 0, list = menuData[k] || []; i < list.length; i++) {
                         var item = list[i];
-                        if (find = !hash || ('#' + item.path === hash)) {
+                        if (find = !hash || (item.path === hash)) {
                             this.turnDemo(item);
                             break;
                         }

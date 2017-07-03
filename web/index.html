@@ -26,17 +26,19 @@
     <div class="fx-1 fx m-container">
         <div class="m-menu">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-info"  v-for="(arr, name) in menuData">
+                <div class="panel panel-info"  v-for="(arr, name, index) in menuData">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" :href="'#' + name">
+                            <a data-toggle="collapse" data-parent="#accordion" :href="'#' + index">
                                 {{name}}
                             </a>
                         </h4>
                     </div>
-                    <div :id="name" class="panel-collapse collapse in">
+                    <div :id="index" class="panel-collapse collapse in">
                         <div class="list-group">
-                            <a class="list-group-item" v-for="item in arr" :class="item.path == active && 'select'" @click="turnDemo(item)">{{item.title}}</a>
+                            <a class="list-group-item" v-for="item in arr" :class="item.path == active && 'select'" :href="'#' + item.path" @click="turnDemo(item)">
+                                {{item.title}}
+                            </a>
                         </div>
                     </div>
                 </div>
