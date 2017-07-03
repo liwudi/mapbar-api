@@ -4,46 +4,62 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>缩放模式</title>
-    <meta name="description" content="使用鼠标滚轮触发事件">
+    <title>拉框缩放模式</title>
+    <meta name="description" content="拉框改变地图级别，1秒钟后弹出提示">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; 
+            margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+        }
+
+        .btn-wrapper {
+            position: absolute;
+            z-index: 2;
+            top: 0;
         }
     </style>
-    <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
     <script type="text/javascript">
         //初始化地图
+        var maplet = null;
+
         function initMap() {
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
-            maplet.addControl(new MStandardControl());
-
-            // 先放大
-            maplet.setMode('zoomin', onZoomin);
         }
 
-        function onZoomin(zoom) {
-            zoom = 6;
-            alert('当前缩放级别为：' + zoom);
-            maplet.setMode('pan');
-            // 后缩小
-            maplet.setMode('zoomout', onZoomout);
+        function zoomin() {
+            //拉框放大模式
+            maplet.setMode('zoomin', function (zoom) {
+                maplet.setMode('pan');
+                mAlert('拉框放大-当前级别是：' + zoom);
+            });
         }
 
-        function onZoomout(zoom) {
-            zoom = 12;
-            alert('当前缩放级别为：' + zoom);
-            maplet.setMode('pan');
+        function zoomout() {
+            //拉框缩小模式
+            maplet.setMode('zoomin', function (zoom) {
+                maplet.setMode('pan');
+                mAlert('拉框缩小-当前级别是：' + zoom);
+            });
+        }
+
+        function mAlert(msg) {
+            window.setTimeout(function () {
+                alert(msg);
+            }, 1000)
         }
     </script>
 </head>
 <body onload="initMap();">
 <!--地图主容器-->
 <div id="mapDiv"></div>
+<div class="btn-wrapper">
+    <button onclick="zoomin()">拉框放大</button>
+    <button onclick="zoomout()">拉框缩小</button>
+</div>
+
 </body>
 </html>
