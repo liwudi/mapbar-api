@@ -5,21 +5,20 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
     <title>自定义信息窗口</title>
-    <meta name="description" content="自定义信息窗口内容及风格">
+    <meta name="description" content="">
     <style type="text/css">
         html, body, #mapDiv {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
         }
         .customBubble{
             position:absolute;
             width:256px;
             height:auto;
-            padding: 5px;
-            margin-top: 110px;
-            margin-left: -280px;
+            left: -125px;
+            top: -80px;
             background:white;
             box-sizing: border-box;
             box-shadow: 1px 2px 1px rgba(0,0,0,.35);
@@ -31,28 +30,25 @@
             line-height: 35px;
             border-bottom: 1px solid #CCCCCC;
         }
-
-        .customBubble .content{
-            /*控制内容区域*/
-            padding: 5px;
-            font-size: 12px;
-            color: #333333
-        }
-        .customBubble .arrow {
+        .customBubble .arrow{
             width: 0;
             height: 0;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 8px solid white;
             position: absolute;
-            margin-top:5px;
+            margin-top:0px;
             margin-left:120px;
-
+        }
+        .customBubble .content{
+            padding: 5px;
+            font-size: 12px;
+            color: #333333
         }
     </style>
 </head>
 <body>
-<div id="mapDiv" ></div>
+<div id="mapDiv"></div>
 
 <!-- 自定义气泡Dom结构 -->
 <div id="customBubble" class="customBubble">
@@ -67,25 +63,40 @@
 
 <script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
 <script type="text/javascript">
-
+    var maplet = null,
+        marker = null,
+        center = new MPoint("116.39748,39.90881"),
+        point = new MPoint("116.39748,39.82881");
 
     function initMap() {
         maplet = new Maplet("mapDiv");
-        maplet.centerAndZoom(new MPoint('116.404, 39.915'), 15);
+        maplet.centerAndZoom(center, 11);
+        maplet.showOverview(true, false);
         maplet.addControl(new MStandardControl());
+        maplet.customInfoWindow = true;
+
+        marker = new MMarker(
+            point,
+            new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32)
+        );
+        maplet.addOverlay(marker);
     };
 
     //自定义气泡
     function initBubble() {
         var bubbleDom = document.getElementById("customBubble");
         var options = {
-            pin: true,//是否和地图移动
-            zindex: 6,//大于1才可见
-            content: bubbleDom,//显示内容
-            location:{pt: new MPoint(116.404, 39.915)}//地理坐标点
+            pin: true,
+            zindex: 6,
+            content: bubbleDom,
+            zoomhide: true
         };
-        Panel = new MPanel(options);
-        maplet.addPanel(Panel);//自定义信息窗口
+        p = new MPanel(options);
+        p.setLocation({
+            x: marker.pt.mapX,
+            y: marker.pt.mapY
+        });
+        maplet.addPanel(p);
     }
 
     window.onload = function() {
