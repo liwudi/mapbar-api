@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>自适应外部尺寸</title>
+    <title>地图-尺寸自适应</title>
     <meta name="description" content="全屏地图，当浏览器尺寸发生变化时，地图尺寸随之变化">
     <style type="text/css">
         html, body, #mapDiv {
@@ -22,7 +22,7 @@
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
 
-            outoResize(); //默认尺寸
+            autoResize();
             window.onresize = function () {
                 autoResize();
             };
