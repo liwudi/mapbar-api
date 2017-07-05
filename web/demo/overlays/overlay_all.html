@@ -23,6 +23,58 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            marker();
+
+            polyline();
+
+            cicle();
+
+            ellipse();
+        }
+
+        function marker(){
+            var marker = new MMarker(
+                new MPoint(113.38672, 40.90805),
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32),
+                new MInfoWindow('标记', "标记说明,这是一个MMarker的实例")
+            );
+            maplet.addOverlay(marker); //将标注添加到地图上
+            marker.setEditable(true);//设定为可编辑
+        }
+
+        function polyline() {
+            var polyline = new MPolyline(
+                [
+                    new MPoint(114.33217,40.94761),
+                    new MPoint(114.43707,40.9429),
+                    new MPoint(114.44206,40.67544),
+                    new MPoint(114.33924,40.56687)
+                ],
+                new MBrush(),
+                new MInfoWindow("折线", "折线说明，这是一个MPolyline的实例")
+            );
+
+            maplet.addOverlay(polyline);
+            polyline.setEditable(true);//设定为可编辑
+        }
+
+        function cicle() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
+            var sax = 20000, say = null;//x半轴和y半轴长度,单位:米
+            var circle = new MEllipse(new MPoint(116.39752, 40.90872), sax, say, brush,new MInfoWindow('正圆', "正圆说明,这是一个MEllipse的实例"));
+
+            maplet.addOverlay(circle);//展示正圆
+            circle.setEditable(true);//设定为可编辑
+        }
+
+        function ellipse() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
+            var sax = 20000, say = 10000;//x半轴和y半轴长度,单位:米
+            var ellipse = new MEllipse(new MPoint(116.39752, 39.90872), sax, say, brush,new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例"));
+
+            maplet.addOverlay(ellipse);//展示正圆
+            ellipse.setEditable(true);//设定为可编辑
         }
     </script>
 </head>

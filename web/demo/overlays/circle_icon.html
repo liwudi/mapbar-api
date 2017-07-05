@@ -23,16 +23,14 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 11);
             maplet.addControl(new MStandardControl());
-            addOverlay();
-        }
 
-        function addOverlay() {
             var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
             var sax = 5000, say = null;//x半轴和y半轴长度,单位:米
             var circle = new MEllipse(new MPoint(116.39752, 39.90872), sax, say, brush);
             maplet.addOverlay(circle);//展示正圆
-        }
 
+            circle.setEditable(true);//设定为可编辑
+        }
     </script>
 </head>
 
