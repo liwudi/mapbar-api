@@ -24,6 +24,14 @@
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
         }
+
+        // 获取当前级别地图的四角坐标
+        function getMapViewBound() {
+            var obj = maplet.getViewBound();  // getViewBound() 获取当前级别地图的四个顶点的经纬度集合
+            var coordinate = '西北角坐标为：' + obj.LeftUp + '\r\n' + '西南角坐标为：' + obj.LeftDown + '\r\n' + '东北角坐标为：' + obj.RightUp + '\r\n' + '东南角坐标为：' + obj.RightDown;
+            alert(coordinate);
+        }
+        setTimeout(getMapViewBound, 2000);
     </script>
 </head>
 <body onload="initMap();">

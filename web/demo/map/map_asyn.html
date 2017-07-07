@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-    <title>地图-禁止所有操作</title>
-    <meta name="description" content="不能滚轮缩放，不能双击缩放，不能拖拽，禁止所有基础操作">
+    <title>地图-异步加载</title>
+    <meta name="description" content="api异步加载，使用脚本代码加载api文件">
     <style type="text/css">
         html, body, #mapDiv {
             margin: 0;
@@ -14,7 +14,6 @@
             height: 100%;
         }
     </style>
-    <script type="text/javascript" src="../mapbard31.3.js"></script>
     <script type="text/javascript">
 
         var maplet = null;
@@ -24,9 +23,49 @@
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
         }
+
+        function loadScript(url, callback, errorCallback) {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+
+            var params = {
+                window: window
+            };
+
+            function getCallbackParams() {
+                return params;
+            }
+
+            if (script.readyState) { //IE
+                script.onreadystatechange = function () {
+                    if (script.readyState == "loaded" || script.readyState == "complete") {
+                        script.onreadystatechange = null;
+                        callback(getCallbackParams());
+                    }
+                };
+            } else { //Others
+                script.onload = function () {
+                    callback(getCallbackParams());
+                };
+            }
+            script.onerror = function () {//顺序必须在append之前
+                errorCallback(getCallbackParams());
+            };
+            script.src = url;
+
+            document.body.appendChild(script);
+        }
+
+
+
+        function startUp (){
+            loadScript('../mapbard31.3.js',initMap);
+        }
+
+        window.onload = startUp;
     </script>
 </head>
-<body onload="initMap();">
+<body>
 <!--地图主容器-->
 <div id="mapDiv"></div>
 </body>
