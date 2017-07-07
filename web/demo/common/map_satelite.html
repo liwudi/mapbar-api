@@ -38,19 +38,32 @@
     <script type="text/javascript">
 
         var maplet = null, serverPath = 'http://223.71.139.100:3000/map/';
-        //初始化地图
+        // 初始化地图
         function initMap() {
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
         }
 
-        //服务地址预处理函数
+        // 服务地址预处理函数
         function preProcessFun(gridx, gridy, zoom) {
             return serverPath + zoom + '/' + gridx + '/' + gridy + '/';
         }
 
-        //创建卫星图叠加层
+        // 设置底图为初始化地图
+        function map() {
+            maplet.setBasemapImg();
+            /*  setBasemapImg([opts]) 设置底图
+            opts设置选项，省略时使用默认底图
+            opts = {
+                minZoom: 1,  // 最小地图级别
+                maxZoom: 18,  // 最大地图级别
+                synOverview: false,  // 切换底图是否同步到鹰眼，默认为true
+                imgUrlProcessor: function () {}  // 底图地址处理函数
+            }  */
+        }
+
+        // 设置底图为卫星图
         function satelliteMap() {
             maplet.setBasemapImg({
                 imgUrlProcessor: preProcessFun
@@ -59,14 +72,12 @@
 
         // 点击“地图”、“卫星”按钮切换相应底图
         function changeMap() {
-            var mapDiv = document.getElementById('mapDiv'),
-                mapBtn = document.getElementById('map'),
+            var mapBtn = document.getElementById('map'),
                 satelliteBtn = document.getElementById('satellite');
             mapBtn.onclick = function () {
                 this.className = 'on';
                 satelliteBtn.className = '';
-                mapDiv.innerHTML = '';
-                initMap();
+                map();
             };
             satelliteBtn.onclick = function () {
                 this.className = 'on';
