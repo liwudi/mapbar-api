@@ -50,17 +50,9 @@
             return serverPath + zoom + '/' + gridx + '/' + gridy + '/';
         }
 
-        // 设置底图为初始化地图
+        // 设置默认底图
         function map() {
-            maplet.setBasemapImg();
-            /*  setBasemapImg([opts]) 设置底图
-            opts设置选项，省略时使用默认底图
-            opts = {
-                minZoom: 1,  // 最小地图级别
-                maxZoom: 18,  // 最大地图级别
-                synOverview: false,  // 切换底图是否同步到鹰眼，默认为true
-                imgUrlProcessor: function () {}  // 底图地址处理函数
-            }  */
+            maplet.setBasemapImg();  //setBasemapImg([opts]) 设置底图.opts设置选项，省略时使用默认底图
         }
 
         // 设置底图为卫星图
@@ -73,7 +65,7 @@
         // 点击“地图”、“卫星”按钮切换相应底图
         function changeMap() {
             var mapBtn = document.getElementById('map'),
-                satelliteBtn = document.getElementById('satellite');
+                    satelliteBtn = document.getElementById('satellite');
             mapBtn.onclick = function () {
                 this.className = 'on';
                 satelliteBtn.className = '';
