@@ -30,6 +30,28 @@
             maplet.addOverlay(circle);//展示正圆
 
             circle.setEditable(true);//设定为可编辑
+
+            //中心点设置
+            var centerOpts = {
+                visible : true,
+                editable : true,
+                img : 'http://union.mapbar.com/apidoc/images/tb1.gif',
+                width : 30,
+                height : 30,
+                title : '移动圆'
+            };
+            circle.setCenterEditable(centerOpts);
+
+            //半径设置
+            var radiusOpts = {
+                visible : true,
+                editable : true,
+                img : 'http://union.mapbar.com/apidoc/images/tb1.gif',
+                width : 30,
+                height : 30,
+                title : '编辑半径'
+            };
+            circle.setRadiusEditable(radiusOpts);
         }
     </script>
 </head>

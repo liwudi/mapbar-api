@@ -88,10 +88,10 @@
         function ellipse() {
             var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
             var sax = 20000, say = 10000;//x半轴和y半轴长度,单位:米
-            var ellipse = new MEllipse(new MPoint(116.39752, 39.90872), sax, say, brush,new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例"));
+            var ellipse = new MEllipse(new MPoint(116.39752, 39.90872), sax, say, brush,new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例，但是不可编辑"));
 
             maplet.addOverlay(ellipse);//展示正圆
-            ellipse.setEditable(true);//设定为可编辑
+            ellipse.setEditable(true);//设定为可编辑，但是无效
         }
 
         function roundRect() {
@@ -99,10 +99,10 @@
             var minpt = new MPoint(117.3964266800, 40.9041761500); // 北京市
             var maxpt = new MPoint(118.1906635600, 40.0879286000); // 天津市
             var arcsize = 0;
-            var roundRect = new MRoundRect(minpt, maxpt, arcsize, brush, new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例，但是不能编辑"));
+            var roundRect = new MRoundRect(minpt, maxpt, arcsize, brush, new MInfoWindow('矩形', "矩形说明,这是一个MRoundRect的实例"));
 
             maplet.addOverlay(roundRect);
-            roundRect.setEditable(true);//设定无效
+            roundRect.setEditable(true);
         }
 
         function panel() {

@@ -23,7 +23,20 @@
             maplet = new Maplet("mapDiv");
             maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
             maplet.addControl(new MStandardControl());
+
+            //通过事件限定缩放级别。
+            MEvent.addListener(maplet, "zoom", function(e) {
+                if(e>8){
+                    alert('限制当前地图放大级别为8！')
+                    maplet.setZoomLevel(8);
+                }
+                if(e<4){
+                    alert('限制当前地图缩小级别为4！')
+                    maplet.setZoomLevel(4);
+                }
+            })
         }
+
     </script>
 </head>
 <body onload="initMap();">
