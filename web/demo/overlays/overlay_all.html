@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>叠加物集合</title>
+    <meta name="description" content="这里展示了api中支持的所有叠加物，它们都是可编辑的，单击后打开信息窗口，默认信息窗口是关闭的">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panelContainer {
+            width: 200px;
+            height: 200px;
+            background: #CCCCCC;
+            color: red;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+
+            marker();
+
+            polyline();
+
+            cicle();
+
+            ellipse();
+
+            roundRect();
+
+            panel();
+        }
+
+        function marker(){
+            var marker = new MMarker(
+                new MPoint(113.38672, 40.90805),
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32),
+                new MInfoWindow('标记', "标记说明,这是一个MMarker的实例")
+            );
+            maplet.addOverlay(marker); //将标注添加到地图上
+            marker.setEditable(true);//设定为可编辑
+        }
+
+        function polyline() {
+            var polyline = new MPolyline(
+                [
+                    new MPoint(114.33217,40.94761),
+                    new MPoint(114.43707,40.9429),
+                    new MPoint(114.44206,40.67544),
+                    new MPoint(114.33924,40.56687)
+                ],
+                new MBrush(),
+                new MInfoWindow("折线", "折线说明，这是一个MPolyline的实例")
+            );
+
+            maplet.addOverlay(polyline);
+            polyline.setEditable(true);//设定为可编辑
+        }
+
+        function cicle() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
+            var sax = 20000, say = null;//x半轴和y半轴长度,单位:米
+            var circle = new MEllipse(new MPoint(116.39752, 40.90872), sax, say, brush,new MInfoWindow('正圆', "正圆说明,这是一个MEllipse的实例"));
+
+            maplet.addOverlay(circle);//展示正圆
+            circle.setEditable(true);//设定为可编辑
+        }
+
+        function ellipse() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");//设置圆样式(边框颜色,边框宽度,边框透明度,填充颜色)
+            var sax = 20000, say = 10000;//x半轴和y半轴长度,单位:米
+            var ellipse = new MEllipse(new MPoint(116.39752, 39.90872), sax, say, brush,new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例，但是不可编辑"));
+
+            maplet.addOverlay(ellipse);//展示正圆
+            ellipse.setEditable(true);//设定为可编辑，但是无效
+        }
+
+        function roundRect() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");
+            var minpt = new MPoint(117.3964266800, 40.9041761500); // 北京市
+            var maxpt = new MPoint(118.1906635600, 40.0879286000); // 天津市
+            var arcsize = 0;
+            var roundRect = new MRoundRect(minpt, maxpt, arcsize, brush, new MInfoWindow('矩形', "矩形说明,这是一个MRoundRect的实例"));
+
+            maplet.addOverlay(roundRect);
+            roundRect.setEditable(true);
+        }
+
+        function panel() {
+            var panel = new MPanel({
+                pin: false,
+                zindex: 5,
+                content: "<div class='center panelContainer'>这是一个panel示例,但是不能编辑</div>",
+                location: {
+                    type: "xy",
+                    x: 200,
+                    y: 350
+                },
+                mousewheel: true
+            });
+
+            maplet.addPanel(panel);
+            panel.setEditable(true);//设定无效
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

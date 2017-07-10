@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>鼠标拾点</title>
+    <meta name="description" content="鼠标单击地图，弹框提示：‘您单击地图的位置：像素坐标x,y;地理坐标是lng,lat’">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+
+            MEvent.addListener(maplet, "click", function () {  // 注册事件侦听器(参数为待侦听对象、待侦听事件以及回调函数)
+                var x = maplet.downX;  // 在地图上按下鼠标时，此位置的X坐标
+                var y = maplet.downY;  // 在地图上按下鼠标时，此位置的Y坐标
+                var geog = maplet.toMapCoordinate(x, y);  // toMapCoordinate(x, y) 将地图的屏幕坐标转换成一个经纬度字符串
+                alert('您单击地图的位置：\r\n像素坐标是 ' + x + ',' + y + '\r\n地理坐标是 ' + geog);
+            })
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

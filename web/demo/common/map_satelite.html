@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>底图与卫星图切换</title>
+    <meta name="description" content="地图上有两个按钮，显示“地图”、“卫星”，单击其中任一个，切换到相应底图">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn {
+            position: absolute;
+            left: 80px;
+            top: 20px;
+        }
+
+        .btn button {
+            width: 80px;
+            height: 30px;
+            text-align: center;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn .on {
+            background: #fff;
+            color: #f00;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null, serverPath = 'http://223.71.139.100:3000/map/';
+        // 初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+        }
+
+        // 服务地址预处理函数
+        function preProcessFun(gridx, gridy, zoom) {
+            return serverPath + zoom + '/' + gridx + '/' + gridy + '/';
+        }
+
+        // 设置默认底图
+        function map() {
+            maplet.setBasemapImg();  //setBasemapImg([opts]) 设置底图.opts设置选项，省略时使用默认底图
+        }
+
+        // 设置底图为卫星图
+        function satelliteMap() {
+            maplet.setBasemapImg({
+                imgUrlProcessor: preProcessFun
+            });
+        }
+
+        // 点击“地图”、“卫星”按钮切换相应底图
+        function changeMap() {
+            var mapBtn = document.getElementById('map'),
+                    satelliteBtn = document.getElementById('satellite');
+            mapBtn.onclick = function () {
+                this.className = 'on';
+                satelliteBtn.className = '';
+                map();
+            };
+            satelliteBtn.onclick = function () {
+                this.className = 'on';
+                mapBtn.className = '';
+                satelliteMap();
+            }
+        }
+
+        window.onload = function () {
+            initMap();
+            changeMap();
+        };
+
+    </script>
+</head>
+<body>
+<!--地图主容器-->
+<div id="mapDiv"></div>
+<div class="btn" id="btn">
+    <button id="map" class="on">地图</button>
+    <button id="satellite">卫星</button>
+</div>
+</body>
+</html>
