@@ -13,6 +13,19 @@
             width: 100%;
             height: 100%;
         }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .panelContainer {
+            width: 200px;
+            height: 200px;
+            background: #CCCCCC;
+            color: red;
+        }
     </style>
     <script type="text/javascript" src="../mapbard31.3.js"></script>
     <script type="text/javascript">
@@ -31,6 +44,10 @@
             cicle();
 
             ellipse();
+
+            roundRect();
+
+            panel();
         }
 
         function marker(){
@@ -75,6 +92,34 @@
 
             maplet.addOverlay(ellipse);//展示正圆
             ellipse.setEditable(true);//设定为可编辑
+        }
+
+        function roundRect() {
+            var brush = new MBrush("#FF0000 ", 5, 1, true, "#2497c7");
+            var minpt = new MPoint(117.3964266800, 40.9041761500); // 北京市
+            var maxpt = new MPoint(118.1906635600, 40.0879286000); // 天津市
+            var arcsize = 0;
+            var roundRect = new MRoundRect(minpt, maxpt, arcsize, brush, new MInfoWindow('椭圆', "椭圆说明,这是一个MEllipse的实例，但是不能编辑"));
+
+            maplet.addOverlay(roundRect);
+            roundRect.setEditable(true);//设定无效
+        }
+
+        function panel() {
+            var panel = new MPanel({
+                pin: false,
+                zindex: 5,
+                content: "<div class='center panelContainer'>这是一个panel示例,但是不能编辑</div>",
+                location: {
+                    type: "xy",
+                    x: 200,
+                    y: 350
+                },
+                mousewheel: true
+            });
+
+            maplet.addPanel(panel);
+            panel.setEditable(true);//设定无效
         }
     </script>
 </head>
