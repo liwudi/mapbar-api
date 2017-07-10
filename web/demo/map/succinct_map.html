@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>最简洁的地图</title>
+    <meta name="description" content="最简洁的地图。没有鱼骨，没有鹰眼，没有比例尺">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+
+            maplet.showControl(false);
+            /* showControl(visible)	设置平移/缩放控件(鱼骨)的可见性。
+             visible: Boolean 类型，true 为可见，false 为不可见。*/
+
+            maplet.showOverview(false);
+            /* showOverview(visible, state) 设置控制缩略图控件（鹰眼）的可见性，以及最小化/大化控件。
+             visible: Boolean 类型，true 表示显示缩略图控件，false 表示不显示。
+             state: Boolean 类型，true 表示最大化缩略图控件，false 表示最小化。*/
+
+            maplet.showScale(false);
+            /* showScale(visible) 设置比例尺控件的可见性
+             visible: Boolean 类型，true 为可见，false 为不可见 。*/
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>地理坐标转像素坐标</title>
+    <meta name="description" content="地图上任意添加一个marker（建议在地图可视区内），地图平移后提示：‘标注相对于地图左上角的像素坐标是：x,y’">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint(116.38672, 39.90805), 8);
+            maplet.addControl(new MStandardControl());
+
+            var marker = new MMarker(
+                new MPoint(116.38672, 39.90805),
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32, 16, 32)
+            );
+            maplet.addOverlay(marker); //添加标注点
+
+            //坚听地图平移事件
+            MEvent.addListener(maplet, "pan", function () {
+                alert("标注相对于地图左上角的像素坐标是:" + maplet.toScreenCoordinate(marker.pt.pid));
+            });
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

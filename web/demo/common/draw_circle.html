@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>拉框画圆</title>
+    <meta name="description" content="使用拉框模式绘制圆（椭圆）">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+
+            maplet.setMode("lookup", onLookUp)
+        }
+        function onLookUp(dataObj) {
+            //获取矩形四个顶点，MPoint类型坐标。
+            var min = dataObj.min;
+            var max = dataObj.max;
+            var mmx = dataObj.mmx;
+            var mxm = dataObj.mxm;
+            //确定画圆的半径
+            var x = maplet.measDistance([mmx, max]) / 2;
+            var y = maplet.measDistance([mmx, min]) / 2;
+            //确定画圆的中心点坐标
+            var lat = (min.lat + max.lat) / 2;
+            var lon = (min.lon + max.lon) / 2;
+
+            var circle = new MEllipse(new MPoint(lon, lat), x, y);
+            maplet.addOverlay(circle);
+            maplet.setMode("pan");
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

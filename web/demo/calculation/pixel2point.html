@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>像素坐标转地理坐标</title>
+    <meta name="description" content="红色十字线交点坐标是30px 100px，在这里添加一个标注，且标注的左下角在交点上">
+    <style type="text/css">
+        html, body, #mapDiv { margin: 0; padding: 0; width: 100%; height: 100%; }
+        .h, .v { position: absolute; background-color: #ff0000; line-height: 1; z-index: 2; }
+        .h { top: 100px; left: 0; height: 2px; width: 100%; }
+        .v { top: 0; left: 30px; width: 2px; height: 100%; }
+        .my-icon { font-size: 12px; width: 40px; height: 20px; border: 1px solid #000000; text-align: center; line-height: 1.5; background-color: #ffffff; }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 10);
+        }
+
+        //添加标注
+        function addMarker() {
+            //十字线交点坐标
+            var x = 30, y = 100;
+            //将像素坐标转为地理坐标
+            var point = new MPoint(maplet.toMapCoordinate(x, y));
+            //创建标注
+            var marker = new MMarker(
+                point,
+                new MIcon('<div class="my-icon">marker</div>', 42, 22, 0, 22)     //自定义icon
+            );
+            maplet.addOverlay(marker);
+        }
+
+        window.onload = function () {
+            initMap();
+            addMarker();
+        }
+    </script>
+</head>
+<body>
+<!--地图主容器-->
+<div id="mapDiv"></div>
+<!--水平参考线-->
+<div class="h"></div>
+<!--垂直参考线-->
+<div class="v"></div>
+</body>
+</html>

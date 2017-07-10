@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>主站风格信息窗口</title>
+    <meta name="description" content="简单的地图">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript" src="http://api.mapbar.com/api/plugin/MInfoWindow31.3.js"></script>
+
+    <script type="text/javascript">
+
+        var maplet = null;
+        var point = new MPoint('116.40049,39.9208');
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(point, 10);
+            maplet.addControl(new MStandardControl());
+        }
+
+        //添加标注
+        function addMarker() {
+            //创建标注
+            var marker = new MMarker(
+                point,
+                new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif", 32, 32, 16, 32),
+                new MInfoWindow("天安门广场", "天安门广场位于北京市中心，南北长880米，东西宽500米，面积达44万平方米，可容纳100万人举行盛大集会。")
+            );
+
+            //设置信息窗口选项卡。
+            var tabs = [];
+            tabs.push(new MInfoWindowTab("周边", "<input type='text' value='餐饮'><input type='button' disabled value='查询'>"));
+            tabs.push(new MInfoWindowTab("驾车", "<input type='text' value='西直门'><input type='button' disabled value='查询'>"));
+            tabs.push(new MInfoWindowTab("导航", "<input type='text' value='东直门'><input type='button' disabled value='查询'>"));
+            marker.info.setTabs(tabs);
+
+            maplet.addOverlay(marker);
+            //打开信息窗口
+            marker.openInfoWindow();
+        }
+
+        window.onload = function () {
+            initMap();
+            addMarker();
+        }
+    </script>
+</head>
+<body>
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

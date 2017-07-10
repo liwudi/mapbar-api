@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+	<title>截图模式</title>
+	<meta name="description" content="鼠标在地图上拉框，选择‘预览’，稍等后可见截取的图片">
+	<style type="text/css">
+		html, body, #mapDiv { margin: 0; padding: 0; width: 100%; height: 100%; }
+		#img-wrapper { position: absolute; top: 0; left: 0; margin: 10px; background-color: #ffffff; font-size: 12px; color: #555555; border: 1px solid; }
+		#img-wrapper:before { display: block; content: "图片预览"; padding: 5px; }
+		#img-wrapper img { margin: 10px; border: 1px solid; font-size: 12px; }
+	</style>
+	<script type="text/javascript" src="../mapbard31.3.js"></script>
+	<script type="text/javascript">
+
+		var maplet = null;
+		//初始化地图
+		function initMap() {
+			maplet = new Maplet("mapDiv");
+			maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 10);
+			maplet.showOverview(false); //禁用鹰眼
+			setSnapshot();
+ 		}
+
+ 		//“预览”处理函数
+		function processor (src) {
+			document.querySelector('#img').src = src;
+		}
+		//设置截图模式
+		function setSnapshot () {
+			maplet.setMode("snapshot", processor);
+			//取消、保存
+			MEvent.addListener(maplet, 'snapshot_done', function (mode) {
+				maplet.setMode('pan');	//将地图还原到正常模式
+				switch(mode) {
+					case 'download': break;	//下载图片
+					case 'cancel': break;	//取消本地次操作
+				}
+			});
+		}
+	</script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+<div id="img-wrapper"><img id="img" src="" alt="请拉框截图，选择‘预览’"/></div>
+</body>
+</html>

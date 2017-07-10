@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>截图模式</title>
+</head>
+<body>
+
+	<div id="mapDiv" style="border:1px solid black; width:600px; height:400px;"></div>
+	
+	
+	<fieldset>
+    	<legend>截图</legend>
+    	<input type="button" value="截图" id="btnScreenshot"/>
+		<input type="button" value="清除" id="clear"/>
+		<img id="img"/>
+	</fieldset>
+	<fieldset>
+    	<legend>标点</legend>
+    	<input type="button" value="标点" id="addPoint"/>
+		
+		<div>
+			<input value="http://www.mapbar.com/localsearch/images/icon/td_1.gif" id="iconImg" onclick="buffer()"/>
+			<input value="这是标注信息" id="lable"/>
+		</div>
+	</fieldset>
+	<fieldset>
+    	<legend>测试key(20150806)</legend>
+		<div>
+			<span style="width:50px;display: inline-block;">value:</span>
+			<input value="value" id="testKeyVal"/>
+		</div>
+	</fieldset>
+	<fieldset>
+    	<legend>标线标面</legend>
+    	<input type="button" value="标线" id="addLine"/>
+    	<br>
+		<input type="button" value="标面" id="addArea"/>
+	</fieldset>
+	
+	<br/>
+	<script type="text/javascript" src="http://api.mapbar.com/api/mapbard31.3.js"></script>
+<!-- 	<script type="text/javascript" src="mapbard31.3_02.js"></script>
+	 -->	<!--<script type="text/javascript" src="mapbard31.3_02.js"></script>-->
+	<script type="text/javascript">
+	var maplet = null,
+		center = new MPoint("116.39748,39.90881"),
+		img = document.getElementById('img'),
+		panel = document.getElementById('panel'),
+		pb = document.getElementById('pb'),
+		mpanel;
+	function initMap() {
+		maplet = new Maplet("mapDiv");
+		maplet.centerAndZoom(center, 10);
+	};
+
+	var btnScreenshot = document.getElementById('btnScreenshot');
+	var SNAPSHOT_SERVER = "http://staticmap.mapbar.com/dynamic/staticmap02/";//"http://192.168.0.241:8002/staticmap02/";
+	//预览和回调
+	function setSnapshot () {
+		MEvent.bindDom(btnScreenshot, 'click', maplet, function(evt) {
+			//预览
+			maplet.setMode("snapshot", doSnapshot);
+		});
+		//取消、保存
+		MEvent.addListener(maplet, 'snapshot_done', function () {
+			maplet.setMode('pan');
+		})
+	}
+	function doSnapshot(imgSrc){
+		var dom = document.getElementById("img");
+		dom.src = imgSrc;
+		maplet.setMode('pan');
+	}
+
+	var clearBtn = document.getElementById("clear");
+	function setClearEvent () {
+		clearBtn.onclick = function(){
+			maplet.clearOverlays();
+
+			var img = document.getElementById('img');
+			img.setAttribute("src","");
+		};
+		maplet.setMode('pan');
+	}
+
+	function initEvent(){
+		setSnapshot();
+		setClearEvent();
+		setAddPointEvent();
+	}
+
+	window.onload = function () {
+		initMap();
+		initBrush();
+		initEvent();
+	};
+
+
+	////////////////////////////////////////////////
+	function initBrush(){
+		brush1 = null;
+		brush2 = null;
+		brush1 = new MBrush();
+		brush1.fill = false;
+		brush1.stroke = 2;
+		brush2 = new MBrush();
+		brush2.fill = true;
+		brush2.stroke = 2;
+		brush2.arrow = false;	
+	}
+	var addPointBtn = document.getElementById("addPoint"),
+		addLineBtn = document.getElementById("addLine"),
+		addAreaBtn = document.getElementById("addArea");
+	function setAddPointEvent () {
+		addPointBtn.onclick= function(){
+			addPoint();
+		}
+		addLineBtn.onclick= function(){
+			addLine();
+		}
+		addAreaBtn.onclick= function(){
+			addArea();
+		}
+	}
+
+	function addPoint(){
+		maplet.setCursorIcon("http://www.mapbar.com/localsearch/images/icon/td_1.gif",32,32)
+		var eventListener = maplet.setMode("bookmark",function(dataObj) {
+			var point = null;
+			if(apiType==0){
+				point = new MPoint(dataObj.split("&")[2].split("=")[1]);
+			}
+			else{
+				point = dataObj.point;
+			}
+
+			point1 = point;
+			var iconImg = document.getElementById("iconImg").value,
+				lableStr = document.getElementById("lable").value;
+			var icon = new MIcon(iconImg, 22, 34, 12, 36),
+				lable = new MLabel(lableStr);
+			if( null === lableStr || ""=== lableStr ){
+				lable = null;
+			}
+			var marker = new MMarker(point, icon, null, lable, null);
+			maplet.addOverlay(marker);
+
+			MEvent.removeListener(eventListener);
+			maplet.setMode("pan");
+		})
+	}
+	function addLine() {
+		maplet.setMode('drawline', function(obj) {
+			brush1.fill = false;
+			brush1.color = 'red';
+			line1 = new MPolyline(obj.points, brush1)
+			maplet.addOverlay(line1);
+		})
+	};
+	function addArea(){
+		maplet.setMode('drawarea', function(obj) {
+			brush2.fill = true;
+			brush2.color = 'green';
+			area1 = new MPolyline(obj.points, brush2)
+			maplet.addOverlay(area1);
+		});
+	}
+	</script>
+</body>
+</html>

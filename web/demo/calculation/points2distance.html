@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>两点间直线距离（米）</title>
+   <meta name="description" content="地图上任意添加一条直线，2秒后弹窗提示：‘直线长度是xx米’">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+        var maplet = null;
+        //初始化一个新数组
+        var array = new Array();
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049,39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+            maplet.setMode("bookmark")
+            MEvent.addListener(maplet,"bookmark",bookmark_done);
+        }
+        /**
+         * bookmark回调，标记marker，并且在2个点的时候进行画线和弹窗提示
+         * @param dataObj
+         */
+        function bookmark_done(dataObj) {
+            //得到的点push进一个数组中
+            array.push(dataObj.point);
+            //给第一个点添加Marker
+            array.length == 1 && addMarker(dataObj.point,new MIcon("http://union.mapbar.com/apidoc/images/tb1.gif",32,32));
+            //给第二个点添加Marker
+            array.length == 2 && addMarker(dataObj.point,new MIcon("http://union.mapbar.com/apidoc/images/tb2.gif",32,32))
+            //在得到两个点的时候画线，并且设定为pan模式。
+            if(array.length == 2){
+                var polyline = new MPolyline(
+                    array,
+                    new MBrush()
+                );
+                maplet.addOverlay(polyline);
+                maplet.setMode("pan");
+                //两秒后显示距离
+                setTimeout(function () {
+                    var distance = maplet.measDistance(array);
+                    alert(`直线长度是${distance}米`);
+                },2000)
+            }else {
+                //否则设定为bookmark模式继续标记点
+                maplet.setMode("bookmark");
+            }
+        }
+        /**
+         * 添加标记点
+         * @param point，标记点MPoint坐标
+         * @param icon，标记点MIcon图标
+         */
+        function addMarker(point,icon){
+            var marker = new MMarker(
+                point,
+                icon
+            );
+            maplet.addOverlay(marker);
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+    <title>点线组合</title>
+    <meta name="description" content="绘制一条描边折线，并在起点终点处添加标注">
+    <style type="text/css">
+        html, body, #mapDiv {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .label {
+            font-size: 14px;
+            color: green;
+            padding: 3px;
+            border: 1px solid green;
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .red-label {
+            color: red;
+            border-color: red;
+        }
+    </style>
+    <script type="text/javascript" src="../mapbard31.3.js"></script>
+    <script type="text/javascript">
+
+        var maplet = null;
+        //初始化地图
+        function initMap() {
+            maplet = new Maplet("mapDiv");
+            maplet.centerAndZoom(new MPoint('116.40049, 39.9208'), 8);
+            maplet.addControl(new MStandardControl());
+
+            // 自定义画笔对象
+            function getBrush() {
+                var brush = new MBrush();
+                brush.color = 'blue';
+                brush.stroke = 8;  // 获取或设置折线的粗细，单位：像素
+                brush.overlap.enable = true;  // 是否显示边框突出
+                return brush;
+            }
+
+            // 自定义标签对象
+            var options = {
+                xoffset: 40,  // 横向偏移值
+                yoffset: 5,  // 纵向偏移值
+                enableStyle: false, // 是否启用默认样式
+                visible: true  // 是否可见
+            };
+
+            // 起点：石家庄市
+            var start = new MMarker(
+                new MPoint(114.5184148300, 38.0449465700), // 点对象
+                new MIcon("./images/start.png", 29, 36, 15, 36),  // 图标对象：(图标图像 url, 图标宽度, 图标高度, 图标与标注点的横向偏移值, 图标与标注点的纵向偏移值)
+                null,  // 信息窗口对象（可选）
+                new MLabel("<div class='label'>石家庄市</div>", options)  // 标签对象（可选）
+            );
+            // 折线
+            var line = new MPolyline(
+                [
+                    new MPoint(114.5184148300, 38.0449465700), // 起于石家庄市
+                    new MPoint(115.4638199900, 38.8758906600), // 途径保定市
+                    new MPoint(116.6743001000, 39.5389328300), // 途径廊坊市
+                    new MPoint(116.3964266800, 39.9041761500) // 止于北京市
+                ],
+                getBrush()
+            );
+            // 终点：北京市
+            var end = new MMarker(
+                new MPoint(116.3964266800, 39.9041761500),
+                new MIcon("./images/end.png", 29, 36, 16, 36),
+                null,
+                new MLabel("<div class='label red-label'>北京市</div>", options)
+            );
+
+            maplet.addOverlay(start);
+            maplet.addOverlay(line);
+            maplet.addOverlay(end);
+        }
+    </script>
+</head>
+<body onload="initMap();">
+<!--地图主容器-->
+<div id="mapDiv"></div>
+</body>
+</html>
